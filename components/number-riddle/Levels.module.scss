@@ -1,0 +1,21 @@
+.levels{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    li{
+        list-style: none;
+        background-color: rebeccapurple;
+        border-radius: 2rem;
+        padding:  1rem 2rem;
+        color: white;
+        cursor: pointer;
+    }
+    li:not(:last-child){
+        margin-bottom: 2rem;
+    }
+}

@@ -1,0 +1,12 @@
+.layer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vmin;
+    margin-bottom: 2rem;
+}
+@media (max-width : 600px) {
+    .layer{
+        width: 90vmin;
+    }
+}

@@ -1,0 +1,65 @@
+.cell{
+    height: 100%;
+    display: inline-block;
+    border: 1px solid green;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+
+}
+.board{
+    border: 1px solid green;
+    width: 70vmin;
+    height: 70vmin;
+}
+
+.bg{
+    background-color: rebeccapurple;
+}
+.animateLeft{
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%) ;
+    -o-transform: translateX(-100%) ;
+    -webkit-transition: -webkit-transform .12s;
+    -moz-transition: -moz-transform .12s;
+    -o-transition: -o-transform .12s;
+    transition: all .12s;
+}
+.animateRight{
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    -moz-transform: translateX(100%);
+    -o-transform: translateX(100%);
+    -webkit-transition: -webkit-transform .12s;
+    -moz-transition: -moz-transform .12s;
+    -o-transition: -o-transform .12s;
+    transition: all .12s;
+
+}
+.animateDown{
+    transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+    -moz-transform: translateY(100%);
+    -o-transform: translateY(100%);
+    -webkit-transition: -webkit-transform .12s;
+    -moz-transition: -moz-transform .12s;
+    -o-transition: -o-transform .12s;
+    transition: all .12s;
+}
+.animateUp{
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    -webkit-transition: -webkit-transform .12s;
+    -moz-transition: -moz-transform .12s;
+    -o-transition: -o-transform .12s;
+    transition: all .12s;
+}
+@media (max-width : 600px) {
+    .board{
+        width: 95vmin;
+        height: 95vmin;
+    }
+}
