@@ -1,21 +1,52 @@
 .levels{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
-    li{
-        list-style: none;
-        background-color: rebeccapurple;
-        border-radius: 2rem;
-        padding:  1rem 2rem;
-        color: white;
-        cursor: pointer;
+    div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90vmin;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
+        // border: 2px solid red;
+        h1{
+            font-size: 4vmin;
+        }
+        span{
+            width: 5%;
+        }
     }
-    li:not(:last-child){
-        margin-bottom: 2rem;
+    ul{
+        margin: 0;
+        padding: 0;
+        li{
+            list-style: none;
+            background-color: rebeccapurple;
+            border-radius: 2rem;
+            padding:  1rem 2rem;
+            color: white;
+            cursor: pointer;
+        }
+        li:not(:last-child){
+            margin-bottom: 2rem;
+        }
     }
+    
+}
+@media (max-width : 900px) {
+    .levels{
+        div{
+            width: 90vmin;
+            h1{
+                font-size: 6.5vmin;
+            }
+        }
+    }
+    
 }
