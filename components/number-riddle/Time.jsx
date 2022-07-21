@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
+import { faClock } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styles from "./Time.module.scss";
 const Time = ({resetGame,setTimeTaken,recordTime}) => {
     const {setBestHandler,best,gameDim}=useContext(GameContext)
     const [duration,setDuration]=useState("00:00");
@@ -69,7 +72,10 @@ const Time = ({resetGame,setTimeTaken,recordTime}) => {
     }
   },[recordTime,duration,best,gameDim]);
   return (
-    <div>{duration}</div>
+    <div className={styles.time}>
+      <FontAwesomeIcon icon={faClock}/>
+      <span>{duration}</span>
+      </div>
   )
 }
 

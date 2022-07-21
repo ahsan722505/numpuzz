@@ -5,6 +5,7 @@ import SecondLayer from './SecondLayer'
 import styles from "./Game.module.scss"
 import Result from './Result'
 import { useContext } from 'react';
+import Button from "./Button";
 import GameContext from "../../store/number-riddle/GameContext";
  const Game = () => {
     const {play,other}=useContext(GameContext);
@@ -25,10 +26,10 @@ import GameContext from "../../store/number-riddle/GameContext";
             { !startGame && <h1>Target pattern</h1>}
             { startGame && <SecondLayer recordTime={recordTime} gameWon={gameWon} setTimeTaken={setTimeTaken} resetGame={resetGame} setResetGame={setResetGame}/>}
             <Board setRecordTime={setRecordTime}  setGameWon={setGameWon} resetGame={resetGame} startGame={startGame}/>
-            { !startGame && <button onClick={()=> {
+            { !startGame && <Button onClick={()=> {
                 if(play) other.play();
                 setStartGame(true)
-            }}>Start</button>}
+            }}>Start</Button>}
             {gameWon && <Result  timeTaken={timeTaken}  playAgainHandler={playAgainHandler}/>}
       </div>    
   )

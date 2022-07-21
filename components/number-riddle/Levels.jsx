@@ -20,18 +20,18 @@ const Levels = () => {
     
   return (
     <div className={styles.levels}>
-      <div>
-        <BackButton home={true} />
-        <h1>Select Size of puzzle</h1>
-        <span/>
-      </div>
-        <ul>
-        {[3,4,5,6,7,8].map(each=><li key={each} onClick={()=> {
-          if(play) other.play();
-          startGame(each);
-          openFullscreen();
-        }}>{each}x{each}</li>)}
-    </ul>
+        <div><BackButton home={true} /></div>
+        <div>
+            <h1>Select Size of puzzle</h1>
+            <ul>
+            {[3,4,5,6,7,8].map(each=><li key={each} onClick={()=> {
+              if(play) other.play();
+              startGame(each);
+              openFullscreen();
+            }}>{each}x{each}</li>)}
+        </ul>
+        </div>
+        
     </div>
     
   )

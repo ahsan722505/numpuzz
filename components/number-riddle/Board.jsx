@@ -53,7 +53,7 @@ const Board = ({startGame,resetGame,setGameWon,setRecordTime}) => {
                         <div key={rowInd} style={{height : `${100/gameDim}%`}} >
                             {eachRow.map((eachCell,cellInd)=>{
                                 return(
-                                    <div  id={eachCell}    onClick={(e)=>clickHandler(e,[rowInd,cellInd])} onTouchStart={(e)=>clickHandler(e,[rowInd,cellInd])}     key={cellInd} className={`${styles.cell} ${eachCell !== 0 && styles.bg} ${moveAble.elements[eachCell]=== 1 && moveAble.cls} pointer`} style={{width : `${100/gameDim}%`}}>{eachCell}</div>
+                                    <div  id={eachCell}    onClick={(e)=>clickHandler(e,[rowInd,cellInd])} onTouchStart={(e)=>clickHandler(e,[rowInd,cellInd])}     key={cellInd} className={`${styles.cell} ${eachCell !== 0 && styles.bg} ${moveAble.elements[eachCell]=== 1 && moveAble.cls} pointer`} style={{width : `${100/gameDim}%`}}><span style={{fontSize : `${15/gameDim}rem`}}>{eachCell}</span></div>
                                 )
                             })}
                         </div>

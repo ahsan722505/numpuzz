@@ -1,3 +1,4 @@
+@import "../../helpers/variables";
 .levels{
     display: flex;
     justify-content: flex-start;
@@ -7,42 +8,52 @@
     height: 100vh;
     margin: 0;
     padding: 0;
-    div{
+    div:first-child{
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        width: 90vmin;
-        margin-top: 2rem;
-        margin-bottom: 4rem;
-        // border: 2px solid red;
+        width: 90vw;
+        height: 10vh;
+    }
+    div:nth-child(2){
+        height: 90vh;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
         h1{
             font-size: 4vmin;
+            margin-bottom: 2rem;
+            color: green;
+            
         }
-        span{
-            width: 5%;
-        }
-    }
+        
+
     ul{
         margin: 0;
         padding: 0;
         li{
             list-style: none;
-            background-color: rebeccapurple;
+            background-color: $color4;
             border-radius: 2rem;
             padding:  1rem 2rem;
-            color: white;
+            color: $color3;
             cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
         li:not(:last-child){
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
     }
+    }
+     
+    
     
 }
 @media (max-width : 900px) {
     .levels{
-        div{
-            width: 90vmin;
+        div:nth-child(2){   
             h1{
                 font-size: 6.5vmin;
             }
