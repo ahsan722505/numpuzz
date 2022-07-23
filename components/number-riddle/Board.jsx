@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import styles from "./Board.module.scss"
-import { CreateBoard,move,checkWin } from "../../helpers/number-riddle/util";
+import { CreateBoard,move,checkWin,openFullscreen } from "../../helpers/number-riddle/util";
 import { useState } from 'react';
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
 const Board = ({startGame,resetGame,setGameWon,setRecordTime}) => {
+    console.log("re-render");
     const {gameDim,tile,play}=useContext(GameContext);
     const [board,setBoard]=useState(()=>CreateBoard(gameDim,startGame));
     const endRef=useRef(false);
@@ -16,6 +17,10 @@ const Board = ({startGame,resetGame,setGameWon,setRecordTime}) => {
         if(pause.current) return;
         if(e.type === "click" && ('ontouchstart' in document.documentElement)) return;
         if(!startGame || endRef.current) return;
+        if(!document.fullscreenElement){
+            console.log("yeah");
+            openFullscreen();
+        } 
         if(play){
             tile.currentTime=0;
             tile.play();

@@ -127,3 +127,19 @@ function randomInteger(min, max) {
         }
         return true;
   }
+  export function openFullscreen() {
+      try {
+        const elem = document.documentElement;
+        if(elem.webkitRequestFullscreen) { 
+           elem.webkitRequestFullscreen();
+         }
+       else if (elem.requestFullscreen) {
+         elem.requestFullscreen();
+       }  else if (elem.msRequestFullscreen) {
+         elem.msRequestFullscreen();
+       }
+      } catch (err) {
+        console.log(err);
+      }
+    
+  }
