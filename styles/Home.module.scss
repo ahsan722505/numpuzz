@@ -1,15 +1,27 @@
-@import "../../helpers/variables";
+@import "./helpers/variables";
 .home{
     h1,h2{
         text-align: center;
-        color: $color6;
+    }
+    h1{
+        color: #8d96eb;
     }
     main{
-       & >  div{
-            margin: 8rem 0;
+       & >  div:first-child{
             display: flex;
             justify-content: center;
             align-items: center;
+            border: 7px solid #8d96eb;
+            height: 16rem;
+            border-radius: .8rem;
+            position: relative;
+            margin: 4rem 0;
+            h3{
+                color: #8d96eb;
+                position: absolute;
+                top: 0;
+                font-weight: bold;
+            }
             & > div{
                 cursor: pointer;
                 padding: .8rem 1rem;
@@ -27,14 +39,12 @@
             
         
         
-        p{
-            color: $color6;
-        }
+        
         
     }
     margin: 1rem;
+    color: white;
     footer{
-        color: $color6;
         hr{
             width: 80%;
             margin: 2rem auto;
@@ -43,4 +53,25 @@
             text-align: center;
         }
     }
+}
+
+
+.p1,.p2,.p3{
+    display: flex;
+    width: 100%;
+    p{
+        width: 50%;
+    }
+}
+.p2{
+    justify-content: flex-end;
+}
+@media (max-width : 600px) {
+    .p1,.p2,.p3{
+        justify-content: center;
+        p{
+            width: 100%;
+        }
+    }
+    
 }

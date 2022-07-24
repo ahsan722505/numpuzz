@@ -17,10 +17,7 @@ const Board = ({startGame,resetGame,setGameWon,setRecordTime}) => {
         if(pause.current) return;
         if(e.type === "click" && ('ontouchstart' in document.documentElement)) return;
         if(!startGame || endRef.current) return;
-        if(!document.fullscreenElement){
-            console.log("yeah");
-            openFullscreen();
-        } 
+        if(!document.fullscreenElement) openFullscreen(); 
         if(play){
             tile.currentTime=0;
             tile.play();

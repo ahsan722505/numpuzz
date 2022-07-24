@@ -7,6 +7,7 @@ import Result from './Result'
 import { useContext } from 'react';
 import Button from "./Button";
 import GameContext from "../../store/number-riddle/GameContext";
+import { openFullscreen } from "../../helpers/number-riddle/util";
  const Game = () => {
     const {play,other}=useContext(GameContext);
      const [startGame,setStartGame]=useState(false);
@@ -28,6 +29,7 @@ import GameContext from "../../store/number-riddle/GameContext";
             <Board setRecordTime={setRecordTime}  setGameWon={setGameWon} resetGame={resetGame} startGame={startGame}/>
             { !startGame && <Button onClick={()=> {
                 if(play) other.play();
+                openFullscreen();
                 setStartGame(true)
             }}>Start</Button>}
             {gameWon && <Result  timeTaken={timeTaken}  playAgainHandler={playAgainHandler}/>}
