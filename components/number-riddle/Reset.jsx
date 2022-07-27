@@ -9,7 +9,10 @@ const Reset = ({setResetGame}) => {
   const {other,play}=useContext(GameContext);
   return (
     <div className={`${styles.reset} pointer`} onClick={()=>{
-        if(play) other.play();
+      if(play){
+        other.currentTime=0;
+        other.play();
+      }
        setResetGame(state=> state + 1)}}>
         <FontAwesomeIcon icon={faArrowsRotate}/>
     </div>

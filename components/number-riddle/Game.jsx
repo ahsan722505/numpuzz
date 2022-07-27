@@ -28,7 +28,10 @@ import { openFullscreen } from "../../helpers/number-riddle/util";
             { startGame && <SecondLayer recordTime={recordTime} gameWon={gameWon} setTimeTaken={setTimeTaken} resetGame={resetGame} setResetGame={setResetGame}/>}
             <Board setRecordTime={setRecordTime}  setGameWon={setGameWon} resetGame={resetGame} startGame={startGame}/>
             { !startGame && <Button onClick={()=> {
-                if(play) other.play();
+                if(play){
+                    other.currentTime=0;
+                    other.play();
+                  }
                 openFullscreen();
                 setStartGame(true)
             }}>Start</Button>}

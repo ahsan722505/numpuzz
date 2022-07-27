@@ -16,11 +16,17 @@ const Result = ({playAgainHandler,timeTaken}) => {
                 <h3><FontAwesomeIcon icon={faCrown}/> <span>Best: {best[gameDim].d}</span></h3>
                 <div>
                     <button onClick={()=>{
-                      if(play) other.play();
+                      if(play){
+                        other.currentTime=0;
+                        other.play();
+                      }
                       playAgainHandler();
                     }} className="pointer"><FontAwesomeIcon icon={faArrowRotateRight}/></button>
                     <button onClick={()=>{
-                      if(play) other.play();
+                      if(play){
+                        other.currentTime=0;
+                        other.play();
+                      }
                       endGame();
                     }} className="pointer"><FontAwesomeIcon icon={faHouse}/></button>
                 </div>

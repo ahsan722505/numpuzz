@@ -24,7 +24,7 @@ export const GameContextProvider = (props) => {
       setBest(JSON.parse(localStorage.getItem("best")) || {});
       setPlay((localStorage.getItem("sound") === null || localStorage.getItem("sound") === "true") ? true : false );
       setTile(new Audio("/touch.wav"));
-      setOther(new Audio("/other.mp3"));
+      setOther(new Audio("/other.wav"));
     },[])
     const startGame=(gameDim)=>{
         setShowGame(true);

@@ -12,7 +12,10 @@ const Levels = () => {
             <h1>Select Size of puzzle</h1>
             <ul>
             {[3,4,5,6,7,8].map(each=><li key={each} onClick={()=> {
-              if(play) other.play();
+              if(play){
+                other.currentTime=0;
+                other.play();
+              }
               startGame(each);
             }}>{each}x{each}</li>)}
         </ul>

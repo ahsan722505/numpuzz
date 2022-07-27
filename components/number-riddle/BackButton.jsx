@@ -10,7 +10,10 @@ const BackButton = ({home}) => {
     const router=useRouter();
   return (
     <button className={`${styles.back} pointer`} onClick={()=>{
-      if(play) other.play();
+      if(play){
+        other.currentTime=0;
+        other.play();
+      } 
       if(home) router.replace("/");
       else endGame();
       }}>

@@ -7,7 +7,10 @@ import GameContext from "../../store/number-riddle/GameContext";
 const Volume = () => {
   const {other,play,toggleSound}=useContext(GameContext);
   const volumeHandler=()=>{
-    if(play) other.play();
+    if(play){
+      other.currentTime=0;
+      other.play();
+    }
     toggleSound();
   }
   return (
