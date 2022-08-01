@@ -3,7 +3,11 @@ import Link from "next/link";
 import styles from "../styles/Home.module.scss"
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect,useContext } from 'react';
+import GlobalContext from '../store/GlobalContext/GlobalContext';
 export default function Home() {
+  const {globalState : {isloggedIn,username}}=useContext(GlobalContext);
+  
   return (
     <div className={styles.home} >
       <Head>
@@ -18,7 +22,9 @@ export default function Home() {
       `}</style>
       <header>
         <h1>Numpuzz</h1>
+        <Link href="/login">login</Link>
         <h2>Only Place to solve and play number puzzle games</h2>
+        <h3>{isloggedIn ? username : "numpuzz user"}</h3>
       </header>
 
       <main >
