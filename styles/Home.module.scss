@@ -1,5 +1,14 @@
 @import "./helpers/variables";
 .home{
+    .authSection{
+        position: absolute;
+        right: 1rem;
+        top: 2rem;
+        h2{
+            margin: 0;
+            padding: 0;
+        }
+    }
     h1,h2{
         text-align: center;
     }

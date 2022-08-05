@@ -5,9 +5,9 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect,useContext } from 'react';
 import GlobalContext from '../store/GlobalContext/GlobalContext';
+import { useGlobalContext } from '../store/GlobalContext/GlobalContext';
 export default function Home() {
-  const {globalState : {isloggedIn,username}}=useContext(GlobalContext);
-  
+  const {globalState,authLoading}=useGlobalContext();
   return (
     <div className={styles.home} >
       <Head>
@@ -21,10 +21,13 @@ export default function Home() {
         }
       `}</style>
       <header>
+        <div className={styles.authSection}>
+          {authLoading && <h2>Numpuzz User</h2>}
+          { !authLoading && !globalState.isLoggedIn && <Link href="/login">login</Link>}
+          { !authLoading && globalState.isLoggedIn && <h2>{globalState.username}</h2>}
+        </div>
         <h1>Numpuzz</h1>
-        <Link href="/login">login</Link>
         <h2>Only Place to solve and play number puzzle games</h2>
-        <h3>{isloggedIn ? username : "numpuzz user"}</h3>
       </header>
 
       <main >
