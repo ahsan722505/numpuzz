@@ -8,8 +8,10 @@ import { useContext } from 'react';
 import Button from "./Button";
 import GameContext from "../../store/number-riddle/GameContext";
 import { openFullscreen } from "../../helpers/number-riddle/util";
+import { useSelector } from 'react-redux'
  const Game = () => {
-    const {play,other}=useContext(GameContext);
+    // const {play,other}=useContext(GameContext);
+    const {play,other}=useSelector(state=>state.numberRiddle);
      const [startGame,setStartGame]=useState(false);
      const [gameWon,setGameWon]=useState(false);
      const [resetGame,setResetGame]=useState(0);

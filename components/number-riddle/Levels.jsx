@@ -3,8 +3,12 @@ import styles from "./Levels.module.scss"
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
 import BackButton from './BackButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { startGame } from '../../reduxStore/NumberRiddleSlice';
 const Levels = () => {
-    const {startGame,other,play}=useContext(GameContext);
+    // const {startGame,other,play}=useContext(GameContext);
+    const dispatch=useDispatch();
+    const {play,other}=useSelector(state=>state.numberRiddle);
   return (
     <div className={styles.levels}>
         <div><BackButton home={true} /></div>
@@ -16,7 +20,8 @@ const Levels = () => {
                 other.currentTime=0;
                 other.play();
               }
-              startGame(each);
+              // startGame(each);
+              dispatch(startGame(each));
             }}>{each}x{each}</li>)}
         </ul>
         </div>

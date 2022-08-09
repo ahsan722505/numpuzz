@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from "./Result.module.scss"
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
+import { useDispatch, useSelector } from 'react-redux';
+import { endGame } from '../../reduxStore/NumberRiddleSlice';
 const Result = ({playAgainHandler,timeTaken}) => {
-  const {best,gameDim,endGame,other,play}=useContext(GameContext);
+  // const {best,gameDim,endGame,other,play}=useContext(GameContext);
+  const {best,gameDim,other,play}=useSelector(state=>state.numberRiddle);
+  const dispatch=useDispatch();
   return (
     <Modal className={styles.result}  open={true}>
         <div  className={styles.box}>
@@ -27,7 +31,8 @@ const Result = ({playAgainHandler,timeTaken}) => {
                         other.currentTime=0;
                         other.play();
                       }
-                      endGame();
+                      // endGame();
+                      dispatch(endGame());
                     }} className="pointer"><FontAwesomeIcon icon={faHouse}/></button>
                 </div>
         </div>

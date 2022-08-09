@@ -4,9 +4,11 @@ import { CreateBoard,move,checkWin,openFullscreen } from "../../helpers/number-r
 import { useState } from 'react';
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
+import { useSelector } from 'react-redux';
 const Board = ({startGame,resetGame,setGameWon,setRecordTime}) => {
     console.log("re-render");
-    const {gameDim,tile,play}=useContext(GameContext);
+    // const {gameDim,tile,play}=useContext(GameContext);
+    const {gameDim,tile,play}=useSelector(state=>state.numberRiddle);
     const [board,setBoard]=useState(()=>CreateBoard(gameDim,startGame));
     const endRef=useRef(false);
     const pause=useRef(false);

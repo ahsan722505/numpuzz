@@ -4,8 +4,13 @@ import GameContext from "../../store/number-riddle/GameContext";
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from "./Time.module.scss";
+import { useDispatch, useSelector } from 'react-redux';
+import { setBestThunk } from '../../reduxStore/NumberRiddleSlice';
 const Time = ({resetGame,setTimeTaken,recordTime}) => {
-    const {setBestHandler,best,gameDim}=useContext(GameContext)
+    // const {setBestHandler,best,gameDim}=useContext(GameContext)
+    const {best,gameDim}=useSelector(state=>state.numberRiddle);
+    // console.log(best);
+    const dispatch=useDispatch();
     const [duration,setDuration]=useState("00:00");
     const startingTime=useRef(new Date());
     const intervalId=useRef(null);
@@ -56,6 +61,7 @@ const Time = ({resetGame,setTimeTaken,recordTime}) => {
   },[resetGame]);
   // This effect runs when puzzle is solved and we need to record time
   useEffect(()=>{
+    console.log(best);
     if(recordTime){
         clearInterval(intervalId.current);
         setTimeTaken(duration);
@@ -63,10 +69,14 @@ const Time = ({resetGame,setTimeTaken,recordTime}) => {
         const newBest={...best}
         if(!best[gameDim]){
             newBest[gameDim]= {m : new Date() - startingTime.current , d: duration};
-            setBestHandler(newBest);
+            // setBestHandler(newBest);
+            console.log(newBest);
+            dispatch(setBestThunk(newBest));
         }else if((new Date() - startingTime.current) < best[gameDim].m){
           newBest[gameDim]= {m : new Date() - startingTime.current , d: duration};
-          setBestHandler(newBest);
+          // setBestHandler(newBest);
+          console.log(newBest);
+          dispatch(setBestThunk(newBest));
         }
 
     }

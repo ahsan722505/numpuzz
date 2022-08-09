@@ -3,11 +3,10 @@ import Link from "next/link";
 import styles from "../styles/Home.module.scss"
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect,useContext } from 'react';
-import GlobalContext from '../store/GlobalContext/GlobalContext';
-import { useGlobalContext } from '../store/GlobalContext/GlobalContext';
+import { useSelector } from 'react-redux';
+import { CircularProgress } from '@mui/material';
 export default function Home() {
-  const {globalState,authLoading}=useGlobalContext();
+  const {isLoggedIn,username,loading}=useSelector(state=> state.global);
   return (
     <div className={styles.home} >
       <Head>
@@ -22,9 +21,9 @@ export default function Home() {
       `}</style>
       <header>
         <div className={styles.authSection}>
-          {authLoading && <h2>Numpuzz User</h2>}
-          { !authLoading && !globalState.isLoggedIn && <Link href="/login">login</Link>}
-          { !authLoading && globalState.isLoggedIn && <h2>{globalState.username}</h2>}
+          {loading && <h2>Numpuzz User</h2>}
+          { !loading && !isLoggedIn && <Link href="/login">login</Link>}
+          { !loading && isLoggedIn && <h2>{username}</h2>}
         </div>
         <h1>Numpuzz</h1>
         <h2>Only Place to solve and play number puzzle games</h2>
@@ -33,14 +32,18 @@ export default function Home() {
       <main >
         <div>
           <h3>Play Zone</h3>
-          <div>
-              <Link  href="/number-riddle">
-                <div>
-                  <FontAwesomeIcon icon={faPlay}/>
-                  <span>Number riddle</span>
-                </div>
-                </Link>
-          </div>
+          {loading && <CircularProgress/>}
+          { !loading &&<>
+            <div>
+                <Link  href="/number-riddle">
+                  <div>
+                    <FontAwesomeIcon icon={faPlay}/>
+                    <span>Number riddle</span>
+                  </div>
+                  </Link>
+            </div>
+          </>}
+          
           
         </div>
           <div className={styles.p1}>

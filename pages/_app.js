@@ -1,21 +1,25 @@
 import '../styles/globals.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
-import { GlobalContextProvider } from '../store/GlobalContext/GlobalContext';
 import Head from 'next/head';
+import {Provider} from "react-redux";
+import store from "../reduxStore/index";
+import AuthHOC from "../HigherOrderComp/AuthHOC";
 config.autoAddCss = false; 
 
 
 function MyApp({ Component, pageProps }) {
   return(
-    <GlobalContextProvider>
-        <>
-        <Head>
+    <Provider store={store}>
+      <AuthHOC>
+      <>
+          <Head>
             <link rel="icon" href="/favicon.jpg" />
           </Head>
           <Component {...pageProps} />
         </>
-    </GlobalContextProvider>
+      </AuthHOC>
+    </Provider>
     )
 }
 

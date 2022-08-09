@@ -4,9 +4,12 @@ import React from 'react'
 import styles from "./Reset.module.scss"
 import { useContext } from 'react'
 import GameContext from "../../store/number-riddle/GameContext";
+import { useSelector } from 'react-redux'
 
 const Reset = ({setResetGame}) => {
-  const {other,play}=useContext(GameContext);
+  // const {other,play}=useContext(GameContext);
+  const {play,other}=useSelector(state=>state.numberRiddle);
+
   return (
     <div className={`${styles.reset} pointer`} onClick={()=>{
       if(play){
