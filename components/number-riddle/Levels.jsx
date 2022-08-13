@@ -5,13 +5,15 @@ import GameContext from "../../store/number-riddle/GameContext";
 import BackButton from './BackButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { startGame } from '../../reduxStore/NumberRiddleSlice';
+import Link from "next/link";
 const Levels = () => {
     // const {startGame,other,play}=useContext(GameContext);
     const dispatch=useDispatch();
     const {play,other}=useSelector(state=>state.numberRiddle);
   return (
     <div className={styles.levels}>
-        <div><BackButton home={true} /></div>
+        <div><BackButton home={true} /><Link href="/number-riddle/leaderboard">Leaderboard</Link></div>
+        
         <div>
             <h1>Select Size of puzzle</h1>
             <ul>
