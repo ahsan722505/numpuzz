@@ -1,9 +1,15 @@
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import LeaderBoard from "../../components/number-riddle/Leaderboard";
+import { getTop } from "../../reduxStore/NumberRiddleSlice";
 const leaderboard=()=>{
-    const {global :{loading:authLoading},numberRiddle : {loading}}=useSelector(state=> state);
+    const {global :{loading:authLoading},numberRiddle : {loading,leaderBoardSize,leaderBoardData}}=useSelector(state=> state);
+    const dispatch=useDispatch();
+    useEffect(()=>{
+        if(!leaderBoardData[leaderBoardSize]) dispatch(getTop(leaderBoardSize));
+    },[leaderBoardSize])
     return (
         <>
             <Head>
