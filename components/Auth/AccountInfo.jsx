@@ -8,19 +8,23 @@ import styles from "./AccountInfo.module.scss";
 import Menu from "@mui/material/Menu";
 import { ListItemIcon, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { Util } from "../../helpers/GlobalUtil";
 const AccountInfo = () => {
-  const { username } = useSelector((state) => state.global);
+  const { username, photo } = useSelector((state) => state.global);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClose = () => setAnchorEl(null);
   const handleClick = (e) => {
-    // if (e.target === e.currentTarget) setAnchorEl(e.target);
     setAnchorEl(e.currentTarget);
+  };
+  const logoutHandler = () => {
+    Util.deleteCookie("token");
+    location.reload();
   };
   return (
     <>
       <div className={styles.profile} onClick={handleClick}>
-        <ProfileImage src="/favicon.jpg" />
+        <ProfileImage src={photo} />
         <div>{username}</div>
         <FontAwesomeIcon icon={faCaretDown} />
       </div>
@@ -57,7 +61,7 @@ const AccountInfo = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem onClick={logoutHandler}>
           <ListItemIcon>
             <FontAwesomeIcon icon={faArrowRightFromBracket} />
           </ListItemIcon>

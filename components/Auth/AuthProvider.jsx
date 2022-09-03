@@ -3,7 +3,7 @@ import styles from "./AuthProvider.module.scss";
 const AuthProvider = ({ name, icon }) => {
   const googleHandler = () => {
     window.open(
-      `http://localhost:8080/auth/google/?returnTo=${window.location.href}`,
+      `${process.env.NEXT_PUBLIC_NODE_SERVER}/auth/google/?returnTo=${window.location.href}`,
       "_self"
     );
   };

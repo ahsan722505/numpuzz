@@ -1,46 +1,55 @@
-.board{
-    margin: 1rem;
-    h1{
-        text-align: center;
-        color: white;
+.board {
+  margin: 1rem;
+  h1 {
+    text-align: center;
+    color: white;
+  }
+  .tableCont {
+    color: white;
+    margin: auto;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .select {
+      align-self: flex-end;
+      margin: 1rem 0;
+      width: 8rem;
     }
-    .tableCont{
-        color: white;
-        margin: auto;
-        width: 70%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        .select{
-            align-self: flex-end;
-            margin: 1rem 0;
-            width: 8rem;
-        }
-        table{
-            border-collapse: collapse;
-            // background-color:  #8d96eb;
-            background-color: #02203c;
-            // background-color: #001E3c;
-            width: 100%;
-            border-radius: .5rem;
-            padding: 1rem;
-            outline: .1px solid rgba(255, 255, 255, 0.5);
-            td, th {
-                text-align: left;
-                padding: 1rem;
-              }
-              tr:not(:last-child){
-                border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-              }
-        }
+    table {
+      border-collapse: collapse;
+      // background-color:  #8d96eb;
+      background-color: #02203c;
+      // background-color: #001E3c;
+      width: 100%;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      outline: 0.1px solid rgba(255, 255, 255, 0.5);
+      td,
+      th {
+        text-align: left;
+        padding: 1rem;
+      }
+      tr:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      }
     }
+  }
 }
-@media (max-width : 600px) {
-    .board{
-        .tableCont{
-            width: 90%;
-        }
+.profile {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transform: translateX(-6px);
+  & > * {
+    margin: 0 0.3rem;
+  }
+}
+@media (max-width: 600px) {
+  .board {
+    .tableCont {
+      width: 90%;
     }
-    
+  }
 }
