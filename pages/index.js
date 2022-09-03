@@ -19,11 +19,11 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <style global jsx>{`
+      {/* <style global jsx>{`
         body {
           background: #02203c;
         }
-      `}</style>
+      `}</style> */}
       <header>
         <h1>Numpuzz</h1>
         <div className={styles.authSection}>

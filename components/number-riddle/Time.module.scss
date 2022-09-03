@@ -1,7 +1,8 @@
-.time{
-    color: green;
-    span{
-        margin-left: .4rem;
-        font-weight: bold;
-    }
+@import "../../helpers/variables";
+.time {
+  color: white;
+  span {
+    margin-left: 0.4rem;
+    font-weight: bold;
+  }
 }

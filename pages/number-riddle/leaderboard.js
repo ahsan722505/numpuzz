@@ -22,11 +22,11 @@ const Leaderboard = () => {
           content="Numpuz: Number Riddle is a classic math puzzle game online available for free. Tap and move the wood number tiles, enjoy the magic of digit, coordinate your eyes, hands and brain."
         />
       </Head>
-      <style global jsx>{`
+      {/* <style global jsx>{`
         body {
           background: #0a1929;
         }
-      `}</style>
+      `}</style> */}
       {loading || (authLoading && <CircularProgress />)}
       {!loading && !authLoading && <LeaderBoard />}
     </>

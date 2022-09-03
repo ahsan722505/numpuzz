@@ -1,76 +1,74 @@
 @import "../../helpers/variables";
-.cell{
+.cell {
+  height: 100%;
+  display: inline-block;
+  border: 1px solid $darkBlue;
+  color: white;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     height: 100%;
-    display: inline-block;
-    border: 1px solid $color5;
-    color: white;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    span{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        font-size: 5rem;
-        color: $color2;
-    }
-
+    font-size: 5rem;
+    color: $background;
+  }
 }
-.board{
-    border: 8px solid $color5;
-    width: 70vmin;
-    height: 70vmin;
+.board {
+  border: 8px solid $darkBlue;
+  width: 70vmin;
+  height: 70vmin;
 }
 
-.bg{
-    background-color: $color4;
+.bg {
+  background-color: $purple;
 }
 
-.animateLeft{
-    transform: translateX(-100%);
-    -webkit-transform: translateX(-100%);
-    -moz-transform: translateX(-100%) ;
-    -o-transform: translateX(-100%) ;
-    -webkit-transition: -webkit-transform .12s;
-    -moz-transition: -moz-transform .12s;
-    -o-transition: -o-transform .12s;
-    transition: all .12s;
+.animateLeft {
+  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  -webkit-transition: -webkit-transform 0.12s;
+  -moz-transition: -moz-transform 0.12s;
+  -o-transition: -o-transform 0.12s;
+  transition: all 0.12s;
 }
-.animateRight{
-    transform: translateX(100%);
-    -webkit-transform: translateX(100%);
-    -moz-transform: translateX(100%);
-    -o-transform: translateX(100%);
-    -webkit-transition: -webkit-transform .12s;
-    -moz-transition: -moz-transform .12s;
-    -o-transition: -o-transform .12s;
-    transition: all .12s;
-
+.animateRight {
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -o-transform: translateX(100%);
+  -webkit-transition: -webkit-transform 0.12s;
+  -moz-transition: -moz-transform 0.12s;
+  -o-transition: -o-transform 0.12s;
+  transition: all 0.12s;
 }
-.animateDown{
-    transform: translateY(100%);
-    -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
-    -webkit-transition: -webkit-transform .12s;
-    -moz-transition: -moz-transform .12s;
-    -o-transition: -o-transform .12s;
-    transition: all .12s;
+.animateDown {
+  transform: translateY(100%);
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  -webkit-transition: -webkit-transform 0.12s;
+  -moz-transition: -moz-transform 0.12s;
+  -o-transition: -o-transform 0.12s;
+  transition: all 0.12s;
 }
-.animateUp{
-    transform: translateY(-100%);
-    -webkit-transform: translateY(-100%);
-    -moz-transform: translateY(-100%);
-    -o-transform: translateY(-100%);
-    -webkit-transition: -webkit-transform .12s;
-    -moz-transition: -moz-transform .12s;
-    -o-transition: -o-transform .12s;
-    transition: all .12s;
+.animateUp {
+  transform: translateY(-100%);
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  -webkit-transition: -webkit-transform 0.12s;
+  -moz-transition: -moz-transform 0.12s;
+  -o-transition: -o-transform 0.12s;
+  transition: all 0.12s;
 }
-@media (max-width : 600px) {
-    .board{
-        width: 95vmin;
-        height: 95vmin;
-    }
+@media (max-width: 600px) {
+  .board {
+    width: 95vmin;
+    height: 95vmin;
+  }
 }
