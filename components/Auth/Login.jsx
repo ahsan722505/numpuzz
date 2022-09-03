@@ -85,7 +85,11 @@ const Login = () => {
             <h3>Login to showcase your skills to the world.</h3>
             <div>
               {providers.map((each) => (
-                <AuthProvider name={each.name} icon={each.icon} />
+                <AuthProvider
+                  key={each.name}
+                  name={each.name}
+                  icon={each.icon}
+                />
               ))}
             </div>
           </div>

@@ -61,7 +61,7 @@ const LeaderBoard = () => {
             <th>Time</th>
           </tr>
           {leaderBoardData[leaderBoardSize]?.map((each, i) => (
-            <tr>
+            <tr key={i}>
               <td>#{i + 1}</td>
               <td className={styles.profile}>
                 <span>
