@@ -18,7 +18,7 @@ const AccountInfo = () => {
     setAnchorEl(e.currentTarget);
   };
   const logoutHandler = () => {
-    Util.deleteCookie("token");
+    localStorage.removeItem("token");
     location.reload();
   };
   return (
