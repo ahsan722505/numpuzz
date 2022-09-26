@@ -68,7 +68,7 @@ const Login = (props) => {
     <>
       <h2
         {...props}
-        className="pointer white"
+        className={`pointer white ${styles.login}`}
         onClick={() => setShowModal(true)}
       >
         Login
@@ -86,7 +86,7 @@ const Login = (props) => {
               <h2>Sign in to</h2>
               <h1>Numpuzz</h1>
             </div>
-            <h3>Login to showcase your skills to the world.</h3>
+            <h3>Login to get featured in leaderboards.</h3>
             <div>
               {providers.map((each) => (
                 <AuthProvider
