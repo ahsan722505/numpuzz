@@ -1,0 +1,26 @@
+.provider {
+  display: flex;
+  justify-content: space-between;
+  outline: 1px solid rgb(66, 133, 244);
+  width: 100%;
+  margin: 1rem auto;
+  border-radius: 0.3rem;
+  color: white;
+  cursor: pointer;
+  div:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    svg {
+      width: 2.5rem;
+    }
+  }
+  div:nth-child(2) {
+    background-color: rgb(66, 133, 244);
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

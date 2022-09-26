@@ -1,11 +1,11 @@
 @import "../../helpers/variables";
-.back{
-    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
-    border: none;
-    padding: .1rem 1.1rem;
-    background-color: $color4;
-    svg{
-        font-size: 1.9rem;
-        color: $color3;
-    }
+.back {
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  border: none;
+  padding: 0.1rem 1.1rem;
+  background-color: $darkPurple;
+  svg {
+    font-size: 1.9rem;
+    color: white;
+  }
 }

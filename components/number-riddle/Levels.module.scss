@@ -1,63 +1,58 @@
 @import "../../helpers/variables";
-.levels{
+.levels {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  div:first-child {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vw;
+    height: 10vh;
+    margin-top: 0.5rem;
+  }
+  div:nth-child(2) {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    div:first-child{
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        width: 90vw;
-        height: 10vh;
+    h1 {
+      font-size: 4vmin;
+      margin-bottom: 2rem;
+      color: white;
     }
-    div:nth-child(2){
-        height: 90vh;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
-        h1{
-            font-size: 4vmin;
-            margin-bottom: 2rem;
-            color: green;
-            
-        }
-        
 
-    ul{
-        margin: 0;
-        padding: 0;
-        li{
-            list-style: none;
-            background-color: $color4;
-            border-radius: 2rem;
-            padding:  1rem 2rem;
-            color: $color3;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        li:not(:last-child){
-            margin-bottom: 1.5rem;
-        }
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        list-style: none;
+        background-color: $darkPurple;
+        border-radius: 2rem;
+        padding: 1rem 2rem;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+      li:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
     }
-    }
-     
-    
-    
+  }
 }
-@media (max-width : 900px) {
-    .levels{
-        div:nth-child(2){   
-            h1{
-                font-size: 6.5vmin;
-            }
-        }
+@media (max-width: 900px) {
+  .levels {
+    div:nth-child(2) {
+      h1 {
+        font-size: 6.5vmin;
+      }
     }
-    
+  }
 }
