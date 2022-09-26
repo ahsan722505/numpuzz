@@ -35,8 +35,6 @@ export const setBestThunk = createAsyncThunk(
   "setBestThunk",
   async (payload, { dispatch, getState }) => {
     const { isLoggedIn } = getState().global;
-    console.log(isLoggedIn);
-    console.log("-----------------");
     try {
       dispatch(setBest(payload));
       if (isLoggedIn) await setBestApi(payload);
@@ -79,6 +77,9 @@ const numberRiddleSlice = createSlice({
     },
     setBest(state, { payload }) {
       state.best = payload;
+      // this will refetch leaderboard data
+      state.leaderBoardData = {};
+      state.leaderBoardSize = 3;
     },
     toggleSound(state) {
       localStorage.setItem("sound", `${!state.play}`);
