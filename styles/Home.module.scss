@@ -11,20 +11,20 @@
     text-align: center;
   }
   h1 {
-    color: #8d96eb;
+    color: $purple;
   }
   main {
     & > div:first-child {
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 7px solid #8d96eb;
+      border: 7px solid $darkPurple;
       height: 16rem;
       border-radius: 0.8rem;
       position: relative;
       margin: 4rem 0;
       h3 {
-        color: #8d96eb;
+        color: $purple;
         position: absolute;
         top: 0;
         font-weight: bold;
@@ -33,8 +33,8 @@
         cursor: pointer;
         padding: 0.8rem 1rem;
         border-radius: 0.8rem;
-        background-color: $color4;
-        color: $color3;
+        background-color: $darkPurple;
+        color: white;
         span {
           margin-left: 0.4rem;
         }
