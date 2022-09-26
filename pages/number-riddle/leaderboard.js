@@ -1,32 +1,30 @@
 import Head from "next/head";
-import { useDispatch, useSelector } from "react-redux";
-import App from "../../components/number-riddle/App";
-import { getBest } from "../../reduxStore/NumberRiddleSlice";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import LeaderBoard from "../../components/number-riddle/Leaderboard";
 import Loader from "../../components/UI/Loader";
-const Index = () => {
+import { getTop } from "../../reduxStore/NumberRiddleSlice";
+const Leaderboard = () => {
   const {
     global: { loading: authLoading },
-    numberRiddle: { loading, best },
+    numberRiddle: { loading, leaderBoardSize, leaderBoardData },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!best) dispatch(getBest());
-  }, []);
-
+    if (!leaderBoardData[leaderBoardSize]) dispatch(getTop(leaderBoardSize));
+  }, [leaderBoardSize]);
   return (
     <>
       <Head>
-        <title>Number Riddle</title>
+        <title>Number Riddle | leaderboard</title>
         <meta
           name="description"
           content="Numpuz: Number Riddle is a classic math puzzle game online available for free. Tap and move the wood number tiles, enjoy the magic of digit, coordinate your eyes, hands and brain."
         />
       </Head>
       {(loading || authLoading) && <Loader />}
-      {!loading && !authLoading && <App />}
+      {!loading && !authLoading && <LeaderBoard />}
     </>
   );
 };
-
-export default Index;
+export default Leaderboard;

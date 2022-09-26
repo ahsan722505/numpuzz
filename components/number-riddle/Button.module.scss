@@ -1,15 +1,11 @@
 @import "../../helpers/variables";
-.btn{
-    background-color: $color4;
-    color: $color3;
-    border: none;
-    border-radius: .5rem;
-    padding: 5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
+.btn {
+  background-color: $darkPurple;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
 }
-
-
-
-

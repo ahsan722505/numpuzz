@@ -1,77 +1,76 @@
 @import "./helpers/variables";
-.home{
-    h1,h2{
-        text-align: center;
-    }
-    h1{
-        color: #8d96eb;
-    }
-    main{
-       & >  div:first-child{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 7px solid #8d96eb;
-            height: 16rem;
-            border-radius: .8rem;
-            position: relative;
-            margin: 4rem 0;
-            h3{
-                color: #8d96eb;
-                position: absolute;
-                top: 0;
-                font-weight: bold;
-            }
-            & > div{
-                cursor: pointer;
-                padding: .8rem 1rem;
-                border-radius: .8rem;
-                background-color: $color4;
-                color: $color3;
-                span{
-                    margin-left: .4rem;
-                }
-            }
-            
-            
-        }
-        
-            
-        
-        
-        
-        
-    }
-    margin: 1rem;
-    color: white;
-    footer{
-        hr{
-            width: 80%;
-            margin: 2rem auto;
-        }
-        div{
-            text-align: center;
-        }
-    }
-}
-
-
-.p1,.p2{
-    display: flex;
+.home {
+  header {
     width: 100%;
-    p{
-        width: 50%;
-    }
-}
-.p2{
-    justify-content: flex-end;
-}
-@media (max-width : 600px) {
-    .p1,.p2{
-        justify-content: center;
-        p{
-            width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h1,
+  h2 {
+    text-align: center;
+  }
+  h1 {
+    color: $purple;
+  }
+  main {
+    & > div:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 7px solid $darkPurple;
+      height: 16rem;
+      border-radius: 0.8rem;
+      position: relative;
+      margin: 4rem 0;
+      h3 {
+        color: $purple;
+        position: absolute;
+        top: 0;
+        font-weight: bold;
+      }
+      & > .game {
+        cursor: pointer;
+        padding: 0.8rem 1rem;
+        border-radius: 0.8rem;
+        background-color: $darkPurple;
+        color: white;
+        span {
+          margin-left: 0.4rem;
         }
+      }
     }
-    
+  }
+  margin: 1rem;
+  color: white;
+  footer {
+    hr {
+      width: 80%;
+      margin: 2rem auto;
+    }
+    div {
+      text-align: center;
+    }
+  }
+}
+
+.p1,
+.p2 {
+  display: flex;
+  width: 100%;
+  p {
+    width: 50%;
+  }
+}
+.p2 {
+  justify-content: flex-end;
+}
+@media (max-width: 600px) {
+  .p1,
+  .p2 {
+    justify-content: center;
+    p {
+      width: 100%;
+    }
+  }
 }
