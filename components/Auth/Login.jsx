@@ -61,12 +61,16 @@ const MyModal = styled(Modal)({
   justifyContent: "center",
   alignItems: "center",
 });
-const Login = () => {
+const Login = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <h2 className="pointer" onClick={() => setShowModal(true)}>
+      <h2
+        {...props}
+        className="pointer white"
+        onClick={() => setShowModal(true)}
+      >
         Login
       </h2>
       <MyModal open={showModal} onClose={() => setShowModal(false)}>

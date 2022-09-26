@@ -4,9 +4,9 @@ import styles from "../styles/Home.module.scss";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
-import { CircularProgress } from "@mui/material";
 import Login from "../components/Auth/Login";
 import AccountInfo from "../components/Auth/AccountInfo";
+import Loader from "../components/UI/Loader";
 export default function Home() {
   const { isLoggedIn, loading } = useSelector((state) => state.global);
   return (
@@ -19,11 +19,6 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <style global jsx>{`
-        body {
-          background: #02203c;
-        }
-      `}</style> */}
       <header>
         <h1>Numpuzz</h1>
         <div className={styles.authSection}>
@@ -31,16 +26,15 @@ export default function Home() {
           {!loading && !isLoggedIn && <Login />}
           {!loading && isLoggedIn && <AccountInfo />}
         </div>
-        {/* <h2>Only Place to solve and play number puzzle games</h2> */}
       </header>
 
       <main>
         <div>
           <h3>Play Zone</h3>
-          {loading && <CircularProgress />}
+          {loading && <Loader />}
           {!loading && (
             <>
-              <div>
+              <div className={styles.game}>
                 <Link href="/number-riddle">
                   <div>
                     <FontAwesomeIcon icon={faPlay} />
@@ -71,10 +65,6 @@ export default function Home() {
             stay tuned for more and exciting number games.
           </p>
         </div>
-        {/* <div className={styles.p3}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          </div> */}
       </main>
       <footer>
         <hr />

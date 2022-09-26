@@ -1,11 +1,10 @@
-import { InputLabel, MenuItem, TextField } from "@mui/material";
-import Select from "@mui/material/Select";
+import { MenuItem, TextField } from "@mui/material";
 import { styled } from "@mui/system";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTop, setLeaderBoardSize } from "../../reduxStore/NumberRiddleSlice";
+import { setLeaderBoardSize } from "../../reduxStore/NumberRiddleSlice";
 import ProfileImage from "../Auth/ProfileImage";
+import BackButton from "./BackButton";
+import Login from "../Auth/Login";
 import styles from "./Leaderboard.module.scss";
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused,
@@ -35,10 +34,17 @@ const LeaderBoard = () => {
   const { leaderBoardData, leaderBoardSize } = useSelector(
     (state) => state.numberRiddle
   );
+  const { isLoggedIn } = useSelector((state) => state.global);
 
   return (
     <div className={styles.board}>
-      <h1>Top users with best scores</h1>
+      <div>
+        <BackButton riddleHome={true} />
+        <h1>Top users with best scores</h1>
+        {!isLoggedIn && (
+          <Login style={{ position: "absolute", top: "-6px", right: "10px" }} />
+        )}
+      </div>
       <div className={styles.tableCont}>
         <WhiteBorderTextField
           value={leaderBoardSize}

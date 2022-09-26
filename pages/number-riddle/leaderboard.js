@@ -1,8 +1,8 @@
-import { CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LeaderBoard from "../../components/number-riddle/Leaderboard";
+import Loader from "../../components/UI/Loader";
 import { getTop } from "../../reduxStore/NumberRiddleSlice";
 const Leaderboard = () => {
   const {
@@ -22,12 +22,7 @@ const Leaderboard = () => {
           content="Numpuz: Number Riddle is a classic math puzzle game online available for free. Tap and move the wood number tiles, enjoy the magic of digit, coordinate your eyes, hands and brain."
         />
       </Head>
-      {/* <style global jsx>{`
-        body {
-          background: #0a1929;
-        }
-      `}</style> */}
-      {loading || (authLoading && <CircularProgress />)}
+      {(loading || authLoading) && <Loader />}
       {!loading && !authLoading && <LeaderBoard />}
     </>
   );

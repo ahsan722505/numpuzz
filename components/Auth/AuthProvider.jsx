@@ -54,7 +54,9 @@ const AuthProvider = ({ name, icon }) => {
       className={styles.provider}
       onClick={() =>
         openSignInWindow(
-          `${process.env.NEXT_PUBLIC_NODE_SERVER}/auth/google/?returnTo=${window.location.host}`,
+          `${
+            process.env.NEXT_PUBLIC_NODE_SERVER
+          }/auth/${name.toLowerCase()}/?returnTo=${window.location.host}`,
           "login"
         )
       }
