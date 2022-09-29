@@ -29,16 +29,6 @@
         top: 0;
         font-weight: bold;
       }
-      & > .game {
-        cursor: pointer;
-        padding: 0.8rem 1rem;
-        border-radius: 0.8rem;
-        background-color: $darkPurple;
-        color: white;
-        span {
-          margin-left: 0.4rem;
-        }
-      }
     }
   }
   margin: 1rem;

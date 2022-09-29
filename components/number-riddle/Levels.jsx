@@ -5,11 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { startGame } from "../../reduxStore/NumberRiddleSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
-import Button from "./Button";
-import { useRouter } from "next/router";
 import Login from "../Auth/Login";
+import StyledLink from "../UI/StyledLink";
 const Levels = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { play, other } = useSelector((state) => state.numberRiddle);
   const { isLoggedIn } = useSelector((state) => state.global);
@@ -17,16 +15,13 @@ const Levels = () => {
     <div className={styles.levels}>
       <div>
         <BackButton home={true} />
-        <Button
-          style={{ padding: ".5rem" }}
-          onClick={() => router.push("/number-riddle/leaderboard")}
-        >
-          <span>
-            <FontAwesomeIcon icon={faArrowTrendUp} />
-          </span>
-          {"  "}
+        <StyledLink href="/number-riddle/leaderboard">
+          <FontAwesomeIcon
+            icon={faArrowTrendUp}
+            style={{ marginRight: ".3rem" }}
+          />
           <span>Leaderboard</span>
-        </Button>
+        </StyledLink>
         {!isLoggedIn && <Login />}
       </div>
 
