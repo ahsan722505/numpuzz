@@ -13,4 +13,7 @@ export class Util {
   static deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
+  static getGames() {
+    return [{ url: "/number-riddle", name: "Number Riddle" }];
+  }
 }

@@ -1,14 +1,11 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
 import Login from "../components/Auth/Login";
 import AccountInfo from "../components/Auth/AccountInfo";
-import Loader from "../components/UI/Loader";
-import { useRouter } from "next/router";
+import { Util } from "../helpers/GlobalUtil";
+import GameLink from "../components/Home/GameLink";
 export default function Home() {
-  const router = useRouter();
   const { isLoggedIn, loading } = useSelector((state) => state.global);
   return (
     <div className={styles.home}>
@@ -32,20 +29,9 @@ export default function Home() {
       <main>
         <div>
           <h3>Play Zone</h3>
-          {loading && <Loader />}
-          {!loading && (
-            <>
-              <div
-                className={styles.game}
-                onClick={() => router.push("/number-riddle")}
-              >
-                <div>
-                  <FontAwesomeIcon icon={faPlay} />
-                  <span>Number riddle</span>
-                </div>
-              </div>
-            </>
-          )}
+          {Util.getGames().map((each) => (
+            <GameLink name={each.name} url={each.url} />
+          ))}
         </div>
         <div className={styles.p1}>
           <p>
