@@ -1,0 +1,17 @@
+.board {
+  background-color: greenyellow;
+  width: 70vmin;
+  height: 70vmin;
+}
+.cell {
+  height: 100%;
+  display: inline-block;
+  border: 1px solid red;
+  border-radius: 2rem;
+}
+@media (max-width: 600px) {
+  .board {
+    width: 95vmin;
+    height: 95vmin;
+  }
+}

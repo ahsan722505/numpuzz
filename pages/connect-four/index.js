@@ -1,7 +1,8 @@
 import React from "react";
+import Game from "../../components/connect-four/Game";
 
 const Index = () => {
-  return <div>hello connect four</div>;
+  return <Game />;
 };
 
 export default Index;
