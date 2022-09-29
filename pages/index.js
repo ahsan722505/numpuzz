@@ -30,7 +30,7 @@ export default function Home() {
         <div>
           <h3>Play Zone</h3>
           {Util.getGames().map((each) => (
-            <GameLink name={each.name} url={each.url} />
+            <GameLink key={each.url} name={each.name} url={each.url} />
           ))}
         </div>
         <div className={styles.p1}>
