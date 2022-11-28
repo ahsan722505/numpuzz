@@ -38,13 +38,4 @@ const Index = () => {
     </>
   );
 };
-// export async function getServerSideProps(context) {
-//   console.log(context.params.roomId);
-//   // return {
-//   //   notFound: true,
-//   // };
-//   return {
-//     props: {},
-//   };
-// }
 export default Index;

@@ -12,6 +12,7 @@ const FirstRow = ({ currentPlayer }) => {
       >
         {isLoggedIn ? username : "numpuzz user"}
       </h1>
+      <h1>0 - 0</h1>
       <h1
         style={{
           backgroundColor: currentPlayer === opponent?.playId && "white",

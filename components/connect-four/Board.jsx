@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 const playerMap = { 1: 2, 2: 1 };
 const Board = ({ currentPlayer, setCurrentPlayer }) => {
-  const { socket, opponent } = useSelector((state) => state.connectFour);
+  const { socket, opponent, self } = useSelector((state) => state.connectFour);
   const router = useRouter();
   const { roomId } = router.query;
   const gameDim = 6;
@@ -50,6 +50,7 @@ const Board = ({ currentPlayer, setCurrentPlayer }) => {
     }
   }, [socket, dropDisk]);
   const turnHandler = (cellInd) => {
+    if (currentPlayer !== self.playId) return;
     socket.emit("myturn", { socketId: opponent.id, cellInd });
     dropDisk(cellInd);
   };
