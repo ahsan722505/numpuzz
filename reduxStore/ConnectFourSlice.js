@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   opponent: null,
   self: null,
+  waitingForOpponent: true,
 };
 
 const connectFourSlice = createSlice({
@@ -24,10 +25,29 @@ const connectFourSlice = createSlice({
     setSelf(state, { payload }) {
       state.self = payload;
     },
+    incrementWins(state) {
+      console.log(state.self);
+      state.self.wins += 1;
+    },
+    setWaitingForOpponent(state, { payload }) {
+      state.waitingForOpponent = payload;
+    },
+    flushState(state) {
+      state.opponent = null;
+      state.self = null;
+      state.waitingForOpponent = true;
+    },
   },
 });
 
-export const { setSocket, setLoading, setOpponent, setSelf } =
-  connectFourSlice.actions;
+export const {
+  setSocket,
+  setLoading,
+  setOpponent,
+  setSelf,
+  incrementWins,
+  setWaitingForOpponent,
+  flushState,
+} = connectFourSlice.actions;
 
 export default connectFourSlice;

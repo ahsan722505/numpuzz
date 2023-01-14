@@ -3,13 +3,26 @@ import styles from "./Board.module.scss";
 import { Util } from "../../helpers/connect-four/util";
 import { useState } from "react";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import {
+  incrementWins,
+  setWaitingForOpponent,
+} from "../../reduxStore/ConnectFourSlice";
 const playerMap = { 1: 2, 2: 1 };
-const Board = ({ currentPlayer, setCurrentPlayer }) => {
-  const { socket, opponent, self } = useSelector((state) => state.connectFour);
+const Board = ({
+  currentPlayer,
+  setCurrentPlayer,
+  toggleResult,
+  MyTurn,
+  resetBoard,
+  setResetBoard,
+}) => {
+  const { socket, opponent, waitingForOpponent } = useSelector(
+    (state) => state.connectFour
+  );
+  const dispatch = useDispatch();
   const router = useRouter();
-  const { roomId } = router.query;
   const gameDim = 6;
   const [board, setBoard] = useState(() => Util.CreateBoard(gameDim));
   const boardRef = useRef(board);
@@ -23,8 +36,12 @@ const Board = ({ currentPlayer, setCurrentPlayer }) => {
           i === board.length
         ) {
           clearInterval(id);
-          if (Util.checkWin(boardRef.current, currentPlayer))
-            alert(`player ${currentPlayer} win`);
+          if (Util.checkWin(boardRef.current, currentPlayer)) {
+            if (MyTurn()) dispatch(incrementWins());
+            dispatch(setWaitingForOpponent(true));
+            toggleResult();
+            return;
+          }
           setCurrentPlayer(playerMap[currentPlayer]);
           return;
         }
@@ -38,7 +55,13 @@ const Board = ({ currentPlayer, setCurrentPlayer }) => {
     },
     [currentPlayer]
   );
-
+  useEffect(() => {
+    if (resetBoard > 0) {
+      const newBoard = Util.CreateBoard(gameDim);
+      setBoard(newBoard);
+      boardRef.current = newBoard;
+    }
+  }, [resetBoard]);
   useEffect(() => {
     if (socket) {
       socket.on("oppturn", (cellInd) => {
@@ -50,7 +73,7 @@ const Board = ({ currentPlayer, setCurrentPlayer }) => {
     }
   }, [socket, dropDisk]);
   const turnHandler = (cellInd) => {
-    if (currentPlayer !== self.playId) return;
+    if (!MyTurn() || waitingForOpponent) return;
     socket.emit("myturn", { socketId: opponent.id, cellInd });
     dropDisk(cellInd);
   };

@@ -21,6 +21,7 @@ const initialState = {
   isLoggedIn: false,
   loading: true,
   photo: null,
+  notication: null,
 };
 const globalSlice = createSlice({
   name: "global",
@@ -28,6 +29,9 @@ const globalSlice = createSlice({
   reducers: {
     setLoading(state, { payload }) {
       state.loading = payload;
+    },
+    setNotification(state, { payload }) {
+      state.notification = payload;
     },
   },
   extraReducers: {
@@ -42,6 +46,6 @@ const globalSlice = createSlice({
   },
 });
 
-export const { setLoading } = globalSlice.actions;
+export const { setLoading, setNotification } = globalSlice.actions;
 
 export default globalSlice;

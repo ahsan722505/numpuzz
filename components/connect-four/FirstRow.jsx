@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import styles from "./FirstRow.module.scss";
 const FirstRow = ({ currentPlayer }) => {
   const { isLoggedIn, username } = useSelector((state) => state.global);
-  const { opponent, self } = useSelector((state) => state.connectFour);
+  const { opponent, self, waitingForOpponent } = useSelector(
+    (state) => state.connectFour
+  );
   console.log(opponent);
   return (
     <div className={styles.row}>
@@ -12,13 +14,15 @@ const FirstRow = ({ currentPlayer }) => {
       >
         {isLoggedIn ? username : "numpuzz user"}
       </h1>
-      <h1>0 - 0</h1>
+      <h1>
+        {self?.wins || 0} - {opponent?.wins || 0}
+      </h1>
       <h1
         style={{
           backgroundColor: currentPlayer === opponent?.playId && "white",
         }}
       >
-        {(opponent && opponent.username) || "waiting for player"}
+        {waitingForOpponent ? "waiting for player" : opponent?.username}
       </h1>
     </div>
   );

@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const Result = ({ showResult, toggleResult }) => {
+const Result = ({ showResult, toggleResult, MyTurn, playAgain, LeaveGame }) => {
+  const status = MyTurn() ? "You Won!" : "You Lost!";
   return (
     <Dialog
       open={showResult}
@@ -21,12 +22,12 @@ const Result = ({ showResult, toggleResult }) => {
           sx={{ textAlign: "center", fontSize: "1.8rem" }}
           id="alert-dialog-description"
         >
-          You win!
+          {status}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={toggleResult}>Leave</Button>
-        <Button onClick={toggleResult}>Play Again</Button>
+        <Button onClick={LeaveGame}>Leave</Button>
+        <Button onClick={playAgain}>Play Again</Button>
       </DialogActions>
     </Dialog>
   );

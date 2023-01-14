@@ -6,6 +6,7 @@ import {
   setOpponent,
   setSelf,
   setSocket,
+  setWaitingForOpponent,
 } from "../../reduxStore/ConnectFourSlice";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
             dispatch(setSelf(data.users[key]));
           }
         }
+        dispatch(setWaitingForOpponent(false));
       });
     }
   }, [socket, roomId, username]);
