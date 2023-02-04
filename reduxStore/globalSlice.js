@@ -8,10 +8,20 @@ export const getAuthStatus = createAsyncThunk(
       setLoading(true);
       const data = await getAuthStatusApi();
       dispatch(setLoading(false));
+      data.isLoggedIn = true;
       return data;
     } catch (error) {
       dispatch(setLoading(false));
-      console.log(error.message);
+      let guestName = localStorage.getItem("guestName");
+      if (!guestName) {
+        guestName = `Guest_${Math.random().toString(36).slice(8)}`;
+        localStorage.setItem("guestName", guestName);
+      }
+      return {
+        username: guestName,
+        isLoggedIn: false,
+        photo: "/photo.jpg",
+      };
     }
   }
 );
@@ -36,11 +46,10 @@ const globalSlice = createSlice({
   },
   extraReducers: {
     [getAuthStatus.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       if (payload) {
         state.username = payload.username;
         state.photo = payload.photo;
-        state.isLoggedIn = true;
+        state.isLoggedIn = payload.isLoggedIn;
       }
     },
   },

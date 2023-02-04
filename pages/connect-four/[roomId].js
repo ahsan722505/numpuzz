@@ -16,7 +16,7 @@ const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { host, roomId } = router.query;
-  console.log(router.query);
+
   useEffect(() => {
     if (!socket) dispatch(setSocket());
     if (socket && roomId && username) {
