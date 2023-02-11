@@ -20,17 +20,38 @@ const Index = () => {
   useEffect(() => {
     if (!socket) dispatch(setSocket());
     if (socket && roomId && username) {
-      if (!host) socket.emit("join-room", { username, roomId });
-      socket.on("start-game", (data) => {
-        for (let key in data.users) {
-          if (key !== socket.id) {
-            dispatch(setOpponent(data.users[key]));
-          } else {
-            dispatch(setSelf(data.users[key]));
-          }
+      // if (!host) socket.send("join-room", { username, roomId });
+      if (!host)
+        socket.send(
+          JSON.stringify({ Type: "join-room", Data: { username, roomId } })
+        );
+      // socket.on("start-game", (data) => {
+      //   for (let key in data.users) {
+      //     if (key !== socket.id) {
+      //       dispatch(setOpponent(data.users[key]));
+      //     } else {
+      //       dispatch(setSelf(data.users[key]));
+      //     }
+      //   }
+      //   dispatch(setWaitingForOpponent(false));
+      // });
+      socket.onmessage = (payload) => {
+        const data = JSON.parse(payload.data);
+        if (data.Type === "start-game") {
+          data.Data.forEach((e) => {
+            console.log(e);
+            if (e.Username === username)
+              dispatch(
+                setSelf({ username: e.Username, host: e.Host, id: e.Id })
+              );
+            else
+              dispatch(
+                setOpponent({ username: e.Username, host: e.Host, id: e.Id })
+              );
+          });
+          dispatch(setWaitingForOpponent(false));
         }
-        dispatch(setWaitingForOpponent(false));
-      });
+      };
     }
   }, [socket, roomId, username]);
   return (

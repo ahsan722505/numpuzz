@@ -6,9 +6,11 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import {
+  flushState,
   incrementWins,
   setWaitingForOpponent,
 } from "../../reduxStore/ConnectFourSlice";
+import { setNotification } from "../../reduxStore/globalSlice";
 const playerMap = { 1: 2, 2: 1 };
 const Board = ({
   currentPlayer,
@@ -23,6 +25,7 @@ const Board = ({
   );
   const dispatch = useDispatch();
   const router = useRouter();
+  const { roomId } = router.query;
   const gameDim = 6;
   const [board, setBoard] = useState(() => Util.CreateBoard(gameDim));
   const boardRef = useRef(board);
@@ -63,18 +66,41 @@ const Board = ({
     }
   }, [resetBoard]);
   useEffect(() => {
-    if (socket) {
-      socket.on("oppturn", (cellInd) => {
-        dropDisk(cellInd);
-      });
-      return () => {
-        socket.off("oppturn");
+    if (socket && opponent) {
+      socket.onmessage = (payload) => {
+        const data = JSON.parse(payload.data);
+        switch (data.Type) {
+          case "playAgainSignal":
+            dispatch(
+              setNotification({
+                message: `${opponent.username} wants to play Again.`,
+              })
+            );
+            dispatch(setWaitingForOpponent(false));
+            break;
+          case "leaveGame":
+            dispatch(
+              setNotification({
+                message: `${opponent.username} left the game.`,
+              })
+            );
+            router.push("/connect-four");
+            dispatch(flushState());
+            break;
+          case "oppturn":
+            dropDisk(data.Data);
+        }
       };
     }
-  }, [socket, dropDisk]);
+  }, [socket, dropDisk, opponent]);
   const turnHandler = (cellInd) => {
     if (!MyTurn() || waitingForOpponent) return;
-    socket.emit("myturn", { socketId: opponent.id, cellInd });
+    socket.send(
+      JSON.stringify({
+        Type: "myturn",
+        Data: { cellInd, roomId, oppId: opponent.id },
+      })
+    );
     dropDisk(cellInd);
   };
 

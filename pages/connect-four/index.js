@@ -13,10 +13,19 @@ const Index = () => {
     if (!socket) dispatch(setSocket());
   }, []);
   const createRoom = () => {
-    socket.emit("create-room", username);
-    socket.on("room-created", (roomId) =>
-      router.push(`connect-four/${roomId}?host=true`)
-    );
+    // socket.emit("create-room", username);
+    // socket.on("room-created", (roomId) =>
+    //   router.push(`connect-four/${roomId}?host=true`)
+    // );
+
+    socket.send(JSON.stringify({ Type: "create-room", Data: username }));
+    socket.onmessage = (payload) => {
+      console.log(payload);
+      const data = JSON.parse(payload.data);
+      console.log(data);
+      if (data.Type === "room-created")
+        router.push(`connect-four/${data.Data}?host=true`);
+    };
   };
 
   return (

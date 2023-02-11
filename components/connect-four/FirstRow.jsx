@@ -9,9 +9,7 @@ const FirstRow = ({ currentPlayer }) => {
   console.log(opponent);
   return (
     <div className={styles.row}>
-      <h1
-        style={{ backgroundColor: currentPlayer === self?.playId && "white" }}
-      >
+      <h1 style={{ backgroundColor: currentPlayer === self?.id && "white" }}>
         {username}
       </h1>
       <h1>
@@ -19,7 +17,7 @@ const FirstRow = ({ currentPlayer }) => {
       </h1>
       <h1
         style={{
-          backgroundColor: currentPlayer === opponent?.playId && "white",
+          backgroundColor: currentPlayer === opponent?.id && "white",
         }}
       >
         {waitingForOpponent ? "waiting for player" : opponent?.username}

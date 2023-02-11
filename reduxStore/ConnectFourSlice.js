@@ -17,7 +17,7 @@ const connectFourSlice = createSlice({
       state.loading = payload;
     },
     setSocket(state) {
-      state.socket = io("http://localhost:4000/");
+      state.socket = new WebSocket("ws://localhost:4000/ws");
     },
     setOpponent(state, { payload }) {
       state.opponent = payload;
