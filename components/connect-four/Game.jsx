@@ -10,8 +10,9 @@ import {
 } from "../../reduxStore/ConnectFourSlice";
 import { setNotification } from "../../reduxStore/globalSlice";
 import Router, { useRouter } from "next/router";
+import { detach, emit, listen } from "../../websocket";
 const Game = () => {
-  const { opponent, self, socket } = useSelector((state) => state.connectFour);
+  const { opponent, self } = useSelector((state) => state.connectFour);
   const dispatch = useDispatch();
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [resetBoard, setResetBoard] = useState(0);
@@ -24,20 +25,10 @@ const Game = () => {
     toggleResult();
     setCurrentPlayer(self.host ? self.id : opponent.id);
     setResetBoard((prev) => prev + 1);
-    socket.send(
-      JSON.stringify({
-        Type: "playAgainSignal",
-        Data: { oppId: opponent.id, roomId },
-      })
-    );
+    emit("playAgainSignal", { oppId: opponent.id, roomId });
   };
   const LeaveGame = () => {
-    socket.send(
-      JSON.stringify({
-        Type: "leaveGame",
-        Data: { oppId: opponent.id, roomId },
-      })
-    );
+    emit("leaveGame", { oppId: opponent.id, roomId });
     router.push("/connect-four");
     dispatch(flushState());
   };
@@ -48,31 +39,33 @@ const Game = () => {
       setCurrentPlayer(self.host ? self.id : opponent.id);
     }
   }, [opponent?.id, self?.host, self?.id]);
+
   useEffect(() => {
-    if (socket && opponent) {
-      socket.onmessage = (payload) => {
-        const data = JSON.parse(payload.data);
-        switch (data.Type) {
-          case "playAgainSignal":
-            dispatch(
-              setNotification({
-                message: `${opponent.username} wants to play Again.`,
-              })
-            );
-            dispatch(setWaitingForOpponent(false));
-            break;
-          case "leaveGame":
-            dispatch(
-              setNotification({
-                message: `${opponent.username} left the game.`,
-              })
-            );
-            router.push("/connect-four");
-            dispatch(flushState());
-        }
-      };
+    if (opponent) {
+      listen("playAgainSignal", () => {
+        dispatch(
+          setNotification({
+            message: `${opponent.username} wants to play Again.`,
+          })
+        );
+        dispatch(setWaitingForOpponent(false));
+      });
+      listen("leaveGame", () => {
+        dispatch(
+          setNotification({
+            message: `${opponent.username} left the game.`,
+          })
+        );
+        router.push("/connect-four");
+        dispatch(flushState());
+      });
     }
-  }, [socket, opponent]);
+    return () => {
+      detach("playAgainSignal");
+      detach("leaveGame");
+    };
+  }, [opponent]);
+
   return (
     <div className={styles.game}>
       <FirstRow currentPlayer={currentPlayer} />

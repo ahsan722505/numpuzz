@@ -11,6 +11,7 @@ import {
   setWaitingForOpponent,
 } from "../../reduxStore/ConnectFourSlice";
 import { setNotification } from "../../reduxStore/globalSlice";
+import { detach, emit, listen } from "../../websocket";
 const playerMap = { 1: 2, 2: 1 };
 const Board = ({
   currentPlayer,
@@ -20,7 +21,7 @@ const Board = ({
   resetBoard,
   setResetBoard,
 }) => {
-  const { socket, opponent, waitingForOpponent } = useSelector(
+  const { opponent, waitingForOpponent } = useSelector(
     (state) => state.connectFour
   );
   const dispatch = useDispatch();
@@ -65,42 +66,15 @@ const Board = ({
       boardRef.current = newBoard;
     }
   }, [resetBoard]);
+
   useEffect(() => {
-    if (socket && opponent) {
-      socket.onmessage = (payload) => {
-        const data = JSON.parse(payload.data);
-        switch (data.Type) {
-          case "playAgainSignal":
-            dispatch(
-              setNotification({
-                message: `${opponent.username} wants to play Again.`,
-              })
-            );
-            dispatch(setWaitingForOpponent(false));
-            break;
-          case "leaveGame":
-            dispatch(
-              setNotification({
-                message: `${opponent.username} left the game.`,
-              })
-            );
-            router.push("/connect-four");
-            dispatch(flushState());
-            break;
-          case "oppturn":
-            dropDisk(data.Data);
-        }
-      };
-    }
-  }, [socket, dropDisk, opponent]);
+    listen("oppturn", (data) => dropDisk(data));
+    return () => detach("oppturn");
+  }, [dropDisk]);
+
   const turnHandler = (cellInd) => {
     if (!MyTurn() || waitingForOpponent) return;
-    socket.send(
-      JSON.stringify({
-        Type: "myturn",
-        Data: { cellInd, roomId, oppId: opponent.id },
-      })
-    );
+    emit("myturn", { cellInd, roomId, oppId: opponent.id });
     dropDisk(cellInd);
   };
 
