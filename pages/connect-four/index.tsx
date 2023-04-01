@@ -1,18 +1,21 @@
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import Loader from "../../components/UI/Loader";
+import useConnectFourStore from "../../store/connect-four";
+import useGlobalStore from "../../store/global";
 import { detach, emit, listen } from "../../websocket";
 
 const Index = () => {
-  const { loading } = useSelector((state) => state.connectFour);
-  const { authLoading, username } = useSelector((state) => state.global);
+  const loading = useConnectFourStore((state) => state.opponent);
+  const authLoading = useGlobalStore((state) => state.authLoading);
+  const username = useGlobalStore((state) => state.username);
+  const userId = useGlobalStore((state) => state.userId);
   const router = useRouter();
   useEffect(() => {
     return () => detach("room-created");
   }, []);
   const createRoom = () => {
-    emit("create-room", username);
+    emit("create-room", { username, userId });
     listen("room-created", (roomId) => {
       router.push(`connect-four/${roomId}?host=true`);
     });

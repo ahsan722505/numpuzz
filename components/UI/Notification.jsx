@@ -1,13 +1,12 @@
 import { Snackbar } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setNotification } from "../../reduxStore/globalSlice";
+import useGlobalStore from "../../store/global";
 
 const Notification = () => {
-  const dispatch = useDispatch();
-  const { notification } = useSelector((state) => state.global);
+  const setNotification = useGlobalStore((state) => state.setNotification);
+  const notification = useGlobalStore((state) => state.notification);
   const handleClose = () => {
-    dispatch(setNotification(null));
+    setNotification(null);
   };
   return (
     <Snackbar

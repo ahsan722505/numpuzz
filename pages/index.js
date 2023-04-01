@@ -5,8 +5,10 @@ import Login from "../components/Auth/Login";
 import AccountInfo from "../components/Auth/AccountInfo";
 import { Util } from "../helpers/GlobalUtil";
 import GameLink from "../components/Home/GameLink";
+import useGlobalStore from "../store/global";
 export default function Home() {
-  const { isLoggedIn, loading } = useSelector((state) => state.global);
+  const isLoggedIn = useGlobalStore((state) => state.isLoggedIn);
+  const loading = useGlobalStore((state) => state.authLoading);
   return (
     <div className={styles.home}>
       <Head>

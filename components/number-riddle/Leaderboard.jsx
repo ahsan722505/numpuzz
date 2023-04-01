@@ -6,6 +6,7 @@ import ProfileImage from "../Auth/ProfileImage";
 import BackButton from "./BackButton";
 import Login from "../Auth/Login";
 import styles from "./Leaderboard.module.scss";
+import useGlobalStore from "../../store/global";
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused,
   label {
@@ -34,7 +35,7 @@ const LeaderBoard = () => {
   const { leaderBoardData, leaderBoardSize } = useSelector(
     (state) => state.numberRiddle
   );
-  const { isLoggedIn } = useSelector((state) => state.global);
+  const isLoggedIn = useGlobalStore((state) => state.isLoggedIn);
 
   return (
     <div className={styles.board}>

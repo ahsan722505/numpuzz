@@ -1,5 +1,5 @@
 const clientSide = typeof window !== "undefined";
-const socket = clientSide && new WebSocket("ws://localhost:4000/ws");
+const socket = clientSide && new WebSocket(process.env.NEXT_PUBLIC_GO_SERVER);
 const callBacks = {};
 if (clientSide) {
   socket.onmessage = (payload) => {

@@ -3,15 +3,9 @@ import styles from "./Board.module.scss";
 import { Util } from "../../helpers/connect-four/util";
 import { useState } from "react";
 import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import {
-  flushState,
-  incrementWins,
-  setWaitingForOpponent,
-} from "../../reduxStore/ConnectFourSlice";
-import { setNotification } from "../../reduxStore/globalSlice";
 import { detach, emit, listen } from "../../websocket";
+import useConnectFourStore from "../../store/connect-four";
 const playerMap = { 1: 2, 2: 1 };
 const Board = ({
   currentPlayer,
@@ -21,10 +15,13 @@ const Board = ({
   resetBoard,
   setResetBoard,
 }) => {
-  const { opponent, waitingForOpponent } = useSelector(
-    (state) => state.connectFour
-  );
-  const dispatch = useDispatch();
+  const {
+    incrementSelfWins,
+    incrementOpponentWins,
+    setWaitingForOpponent,
+    waitingForOpponent,
+    opponent,
+  } = useConnectFourStore();
   const router = useRouter();
   const { roomId } = router.query;
   const gameDim = 6;
@@ -41,8 +38,9 @@ const Board = ({
         ) {
           clearInterval(id);
           if (Util.checkWin(boardRef.current, currentPlayer)) {
-            if (MyTurn()) dispatch(incrementWins());
-            dispatch(setWaitingForOpponent(true));
+            if (MyTurn()) incrementSelfWins();
+            else incrementOpponentWins();
+            setWaitingForOpponent(true);
             toggleResult();
             return;
           }
@@ -73,8 +71,10 @@ const Board = ({
   }, [dropDisk]);
 
   const turnHandler = (cellInd) => {
+    console.log(MyTurn());
+
     if (!MyTurn() || waitingForOpponent) return;
-    emit("myturn", { cellInd, roomId, oppId: opponent.id });
+    emit("myturn", { cellInd, roomId, oppId: opponent.userId });
     dropDisk(cellInd);
   };
 

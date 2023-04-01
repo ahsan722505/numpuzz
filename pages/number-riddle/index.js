@@ -4,11 +4,10 @@ import App from "../../components/number-riddle/App";
 import { getBest } from "../../reduxStore/NumberRiddleSlice";
 import { useEffect } from "react";
 import Loader from "../../components/UI/Loader";
+import useGlobalStore from "../../store/global";
 const Index = () => {
-  const {
-    global: { loading: authLoading },
-    numberRiddle: { loading, best },
-  } = useSelector((state) => state);
+  const { loading, best } = useSelector((state) => state.numberRiddle);
+  const authLoading = useGlobalStore((state) => state.authLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!best) dispatch(getBest());
