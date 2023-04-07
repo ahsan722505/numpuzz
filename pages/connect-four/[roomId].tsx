@@ -21,13 +21,14 @@ const Index = () => {
   const authLoading = useGlobalStore((state) => state.authLoading);
   const username = useGlobalStore((state) => state.username);
   const userId = useGlobalStore((state) => state.userId);
+  const photo = useGlobalStore((state) => state.photo);
   const router = useRouter();
   const { host, roomId } = router.query;
 
   useEffect(() => {
     if (roomId && username && userId) {
       if (!host) {
-        emit("join-room", { username, roomId, userId });
+        emit("join-room", { username, roomId, userId, photo });
       }
       listen("start-game", (data) => {
         console.log(data);
@@ -43,6 +44,7 @@ const Index = () => {
               userId: e.UserId,
               wins: 0,
               gameId: e.GameId,
+              photo: e.Photo,
             });
           } else {
             setOpponent({
@@ -51,6 +53,7 @@ const Index = () => {
               userId: e.UserId,
               wins: 0,
               gameId: e.GameId,
+              photo: e.Photo,
             });
             console.log(e);
           }

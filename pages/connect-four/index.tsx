@@ -10,12 +10,13 @@ const Index = () => {
   const authLoading = useGlobalStore((state) => state.authLoading);
   const username = useGlobalStore((state) => state.username);
   const userId = useGlobalStore((state) => state.userId);
+  const photo = useGlobalStore((state) => state.photo);
   const router = useRouter();
   useEffect(() => {
     return () => detach("room-created");
   }, []);
   const createRoom = () => {
-    emit("create-room", { username, userId });
+    emit("create-room", { username, userId, photo });
     listen("room-created", (roomId) => {
       router.push(`connect-four/${roomId}?host=true`);
     });

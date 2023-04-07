@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { useRouter } from "next/router";
 import { detach, emit, listen } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
-const playerMap = { 1: 2, 2: 1 };
+export const playerMap: { 1: 2; 2: 1 } = { 1: 2, 2: 1 };
 const Board = ({
   currentPlayer,
   setCurrentPlayer,

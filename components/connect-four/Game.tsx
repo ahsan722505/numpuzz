@@ -65,7 +65,10 @@ const Game = () => {
 
   return (
     <div className={styles.game}>
-      <FirstRow currentPlayer={currentPlayer} />
+      <FirstRow
+        currentPlayer={currentPlayer}
+        setCurrentPlayer={setCurrentPlayer}
+      />
       <Board
         currentPlayer={currentPlayer}
         setCurrentPlayer={setCurrentPlayer}

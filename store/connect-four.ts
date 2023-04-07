@@ -5,6 +5,7 @@ type User = {
   host: boolean;
   userId: string;
   wins: number;
+  photo: string;
 } | null;
 type State = {
   self: User;
