@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import useConnectFourStore from "../../store/connect-four";
 import ProfileImage from "../Auth/ProfileImage";
-import { playerMap } from "./Board";
 import styles from "./TurnTimer.module.scss";
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
@@ -22,12 +22,13 @@ const COLOR_CODES = {
 const TurnTimer = ({
   profileSrc,
   startTimer,
-  setCurrentPlayer,
 }: {
   profileSrc: string;
   startTimer: boolean;
-  setCurrentPlayer: React.Dispatch<React.SetStateAction<1 | 2>>;
 }) => {
+  const updateCurrentPlayer = useConnectFourStore(
+    (state) => state.updateCurrentPlayer
+  );
   const timePassed = useRef<number>(0);
   const intervalRef = useRef<NodeJS.Timer>();
   const [circleDasharray, setCircleDasharray] = useState<[number, number]>([
@@ -56,11 +57,16 @@ const TurnTimer = ({
         else if (timeLeft <= warning.threshold)
           setRemainingPathColor(warning.color);
 
-        if (timeLeft === 0) setCurrentPlayer((state) => playerMap[state]);
+        if (timeLeft === 0) updateCurrentPlayer();
       }, 1000);
     }
 
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      setCircleDasharray([283, 283]);
+      timePassed.current = 0;
+      setRemainingPathColor(COLOR_CODES.info.color);
+    };
   }, [startTimer]);
 
   return (

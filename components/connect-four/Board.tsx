@@ -6,45 +6,38 @@ import { useRef } from "react";
 import { useRouter } from "next/router";
 import { detach, emit, listen } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
-export const playerMap: { 1: 2; 2: 1 } = { 1: 2, 2: 1 };
-const Board = ({
-  currentPlayer,
-  setCurrentPlayer,
-  toggleResult,
-  MyTurn,
-  resetBoard,
-  setResetBoard,
-}) => {
-  const {
-    incrementSelfWins,
-    incrementOpponentWins,
-    setWaitingForOpponent,
-    waitingForOpponent,
-    opponent,
-  } = useConnectFourStore();
+const Board = ({ resetBoard }) => {
+  const waitingForOpponent = useConnectFourStore(
+    (state) => state.waitingForOpponent
+  );
+  const opponent = useConnectFourStore((state) => state.opponent);
+  const self = useConnectFourStore((state) => state.self);
   const router = useRouter();
   const { roomId } = router.query;
   const gameDim = 6;
   const [board, setBoard] = useState(() => Util.CreateBoard(gameDim));
   const boardRef = useRef(board);
+  const currentPlayer = useConnectFourStore((state) => state.currentPlayer);
+  const updateCurrentPlayer = useConnectFourStore(
+    (state) => state.updateCurrentPlayer
+  );
+  const endGame = useConnectFourStore((state) => state.endGame);
+  const MyTurn = () => self?.gameId === currentPlayer;
   const dropDisk = useCallback(
     (col) => {
       let i = 0;
       const id = setInterval(() => {
-        console.log(currentPlayer);
         if (
           (boardRef.current[i] && boardRef.current[i][col] > 0) ||
           i === board.length
         ) {
           clearInterval(id);
           if (Util.checkWin(boardRef.current, currentPlayer)) {
-            if (MyTurn()) incrementSelfWins();
-            else incrementOpponentWins();
-            setWaitingForOpponent(true);
-            toggleResult();
+            if (MyTurn()) endGame("won");
+            else endGame("lost");
             return;
           }
-          setCurrentPlayer(playerMap[currentPlayer]);
+          updateCurrentPlayer();
           return;
         }
         const newBoard = Util.createCopy(boardRef.current);
