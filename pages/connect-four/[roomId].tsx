@@ -22,7 +22,12 @@ const Index = () => {
     (state) => state.setWaitingForOpponent
   );
   const setNotification = useGlobalStore((state) => state.setNotification);
+  const setLoading = useConnectFourStore((state) => state.setLoading);
   const flushState = useConnectFourStore((state) => state.flushState);
+  const persistedRoomId = useConnectFourStore((state) => state.persistedRoomId);
+  const setPersistedRoomId = useConnectFourStore(
+    (state) => state.setPersistedRoomId
+  );
   const opponent = useConnectFourStore((state) => state.opponent);
   const self = useConnectFourStore((state) => state.self);
   const authLoading = useGlobalStore((state) => state.authLoading);
@@ -31,6 +36,21 @@ const Index = () => {
   const photo = useGlobalStore((state) => state.photo);
   const router = useRouter();
   const { host, roomId } = router.query;
+  console.log("self", self);
+
+  useEffect(() => {
+    const checkDataValidity = async () => {
+      if (roomId != persistedRoomId) {
+        console.log("clearing storage");
+        flushState();
+        localStorage.removeItem("connectFourBoard");
+        localStorage.removeItem("connectFourTimeSnapShot");
+        setPersistedRoomId(roomId as string);
+      }
+      setLoading(false);
+    };
+    if (roomId) checkDataValidity();
+  }, [roomId]);
 
   useEffect(() => {
     if (roomId && username && userId && photo) {

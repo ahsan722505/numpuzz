@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import useConnectFourStore from "../../store/connect-four";
 import ProfileImage from "../Auth/ProfileImage";
 import styles from "./TurnTimer.module.scss";
@@ -19,6 +19,16 @@ const COLOR_CODES = {
     threshold: ALERT_THRESHOLD,
   },
 };
+const calculateTimePassed = () => {
+  const prevSnapShot = localStorage.getItem("connectFourTimeSnapShot");
+  if (prevSnapShot) {
+    const timePassed = Date.now() - parseInt(prevSnapShot);
+    const v = Math.floor(timePassed / 1000);
+    console.log("passed", v);
+    return v;
+  }
+  return 0;
+};
 const TurnTimer = ({
   profileSrc,
   startTimer,
@@ -29,43 +39,64 @@ const TurnTimer = ({
   const updateCurrentPlayer = useConnectFourStore(
     (state) => state.updateCurrentPlayer
   );
-  const timePassed = useRef<number>(0);
+  const initialTimePassed = useMemo(() => calculateTimePassed(), []);
+  const timePassed = useRef<number>(initialTimePassed);
   const intervalRef = useRef<NodeJS.Timer>();
   const [circleDasharray, setCircleDasharray] = useState<[number, number]>([
-    283, 283,
+    getRemainingProgress(),
+    283,
   ]);
   const [remainingPathColor, setRemainingPathColor] = useState<string>(
-    COLOR_CODES.info.color
+    getRemainingPathColor
   );
+  console.log("circle", circleDasharray);
 
   function calculateTimeFraction(timeLeft: number) {
     const rawTimeFraction = timeLeft / TIME_LIMIT;
     return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
   }
+  function getRemainingProgress() {
+    return (
+      calculateTimeFraction(TIME_LIMIT - timePassed.current) * FULL_DASH_ARRAY
+    );
+  }
+  function getRemainingPathColor() {
+    const timeLeft = TIME_LIMIT - timePassed.current;
+    const { alert, warning, info } = COLOR_CODES;
+    if (timeLeft <= alert.threshold) return alert.color;
+    else if (timeLeft <= warning.threshold) return warning.color;
+    else return info.color;
+  }
+  function readTimeSnapShotFromDisk() {
+    return localStorage.getItem("connectFourTimeSnapShot");
+  }
+  console.log("start", startTimer);
 
   useEffect(() => {
     if (startTimer) {
+      if (!readTimeSnapShotFromDisk()) {
+        console.log("turn started");
+
+        localStorage.setItem("connectFourTimeSnapShot", Date.now().toString());
+      }
       intervalRef.current = setInterval(() => {
         timePassed.current += 1;
         const timeLeft = TIME_LIMIT - timePassed.current;
-        setCircleDasharray([
-          calculateTimeFraction(timeLeft) * FULL_DASH_ARRAY,
-          283,
-        ]);
-        const { alert, warning } = COLOR_CODES;
-        if (timeLeft <= alert.threshold) setRemainingPathColor(alert.color);
-        else if (timeLeft <= warning.threshold)
-          setRemainingPathColor(warning.color);
-
-        if (timeLeft === 0) updateCurrentPlayer();
+        setCircleDasharray([getRemainingProgress(), 283]);
+        setRemainingPathColor(getRemainingPathColor());
+        if (timeLeft === 0) {
+          console.log("turn ended");
+          updateCurrentPlayer();
+          setCircleDasharray([283, 283]);
+          timePassed.current = 0;
+          setRemainingPathColor(COLOR_CODES.info.color);
+          localStorage.removeItem("connectFourTimeSnapShot");
+        }
       }, 1000);
     }
 
     return () => {
       clearInterval(intervalRef.current);
-      setCircleDasharray([283, 283]);
-      timePassed.current = 0;
-      setRemainingPathColor(COLOR_CODES.info.color);
     };
   }, [startTimer]);
 

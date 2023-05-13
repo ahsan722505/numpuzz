@@ -24,10 +24,8 @@ const Index = () => {
 
   return (
     <>
-      {(loading || authLoading) && <Loader />}
-      {!loading && !authLoading && (
-        <button onClick={createRoom}>play with friend</button>
-      )}
+      {authLoading && <Loader />}
+      {!authLoading && <button onClick={createRoom}>play with friend</button>}
     </>
   );
 };

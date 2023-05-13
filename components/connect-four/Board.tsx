@@ -15,7 +15,7 @@ const Board = ({ resetBoard }) => {
   const router = useRouter();
   const { roomId } = router.query;
   const gameDim = 6;
-  const [board, setBoard] = useState(() => Util.CreateBoard(gameDim));
+  const [board, setBoard] = useState(() => Util.readBoardFromDisk(gameDim));
   const boardRef = useRef(board);
   const currentPlayer = useConnectFourStore((state) => state.currentPlayer);
   const updateCurrentPlayer = useConnectFourStore(
@@ -25,6 +25,7 @@ const Board = ({ resetBoard }) => {
   const MyTurn = () => self?.gameId === currentPlayer;
   const dropDisk = useCallback(
     (col) => {
+      Util.saveBoardToDisk(boardRef.current, currentPlayer, col);
       let i = 0;
       const id = setInterval(() => {
         if (
@@ -37,6 +38,7 @@ const Board = ({ resetBoard }) => {
             else endGame("lost");
             return;
           }
+          // localStorage.removeItem("connectFourTimeSnapShot");
           updateCurrentPlayer();
           return;
         }
@@ -64,8 +66,6 @@ const Board = ({ resetBoard }) => {
   }, [dropDisk]);
 
   const turnHandler = (cellInd) => {
-    console.log(MyTurn());
-
     if (!MyTurn() || waitingForOpponent) return;
     emit("myturn", { cellInd, roomId, oppId: opponent.userId });
     dropDisk(cellInd);

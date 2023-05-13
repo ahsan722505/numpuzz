@@ -1,3 +1,5 @@
+import { ConnectFourState } from "../../store/connect-four";
+
 export class Util {
   static CreateBoard(gameDim) {
     let board = [];
@@ -91,5 +93,16 @@ export class Util {
     const el3 = mat[row - 2] && mat[row - 2][col + 2];
     const el4 = mat[row + 1] && mat[row + 1][col - 1];
     return [el1, el2, el3, el4].every((each) => each === player);
+  }
+  static saveBoardToDisk(board: number[][], player: 1 | 2, cellInd: number) {
+    board = this.createCopy(board);
+    let i = board.length - 1;
+    while (board[i][cellInd] !== 0 && i >= 0) i--;
+    if (i >= 0) board[i][cellInd] = player;
+    localStorage.setItem("connectFourBoard", JSON.stringify(board));
+  }
+  static readBoardFromDisk(gameDim: number) {
+    const board = localStorage.getItem("connectFourBoard");
+    return board ? JSON.parse(board) : this.CreateBoard(gameDim);
   }
 }
