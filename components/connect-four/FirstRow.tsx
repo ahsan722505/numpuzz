@@ -6,7 +6,6 @@ const FirstRow = () => {
   const username = useGlobalStore((state) => state.username);
   const opponent = useConnectFourStore((state) => state.opponent);
   const self = useConnectFourStore((state) => state.self);
-  const currentPlayer = useConnectFourStore((state) => state.currentPlayer);
   const waitingForOpponent = useConnectFourStore(
     (state) => state.waitingForOpponent
   );
@@ -14,16 +13,10 @@ const FirstRow = () => {
   return (
     <div className="flex items-center mb-12">
       <h1 className="text-2xl text-blue ml-2 mr-2">{username}</h1>
-      <TurnTimer
-        profileSrc={"/photo.jpg"}
-        startTimer={currentPlayer === self?.gameId}
-      />
+      <TurnTimer profileSrc={"/photo.jpg"} gameId={self?.gameId} />
       <h1 className="text-3xl text-blue ml-2 mr-2">{self?.wins || 0}</h1>
       <h1 className="text-3xl text-blue ml-2 mr-2">{opponent?.wins || 0}</h1>
-      <TurnTimer
-        profileSrc={"/photo.jpg"}
-        startTimer={currentPlayer === opponent?.gameId}
-      />
+      <TurnTimer profileSrc={"/photo.jpg"} gameId={opponent?.gameId} />
       <h1 className="text-2xl text-blue ml-2 mr-2">
         {waitingForOpponent ? "waiting for player" : opponent?.username}
       </h1>
