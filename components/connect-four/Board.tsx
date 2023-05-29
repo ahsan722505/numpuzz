@@ -10,6 +10,10 @@ const Board = ({ resetBoard }) => {
   const waitingForOpponent = useConnectFourStore(
     (state) => state.waitingForOpponent
   );
+  const setCurrentPlayer = useConnectFourStore(
+    (state) => state.setCurrentPlayer
+  );
+  const updateTimer = useConnectFourStore((state) => state.updateTimer);
   const opponent = useConnectFourStore((state) => state.opponent);
   const self = useConnectFourStore((state) => state.self);
   const router = useRouter();
@@ -18,6 +22,8 @@ const Board = ({ resetBoard }) => {
   const [board, setBoard] = useState(() => Util.readBoardFromDisk(gameDim));
   const boardRef = useRef(board);
   const currentPlayer = useConnectFourStore((state) => state.currentPlayer);
+  console.log("currentPlayer", currentPlayer);
+  console.log("board", board);
   const updateCurrentPlayer = useConnectFourStore(
     (state) => state.updateCurrentPlayer
   );
@@ -34,12 +40,17 @@ const Board = ({ resetBoard }) => {
         ) {
           clearInterval(id);
           if (Util.checkWin(boardRef.current, currentPlayer)) {
+            emit("saveState", {
+              boardState: boardRef.current,
+              currentPlayer,
+              startTime: "",
+              roomId,
+            });
             if (MyTurn()) endGame("won");
             else endGame("lost");
             return;
           }
-          // localStorage.removeItem("connectFourTimeSnapShot");
-          updateCurrentPlayer();
+          updateCurrentPlayer(boardRef.current, roomId.toString());
           return;
         }
         const newBoard = Util.createCopy(boardRef.current);
@@ -62,7 +73,21 @@ const Board = ({ resetBoard }) => {
 
   useEffect(() => {
     listen("oppturn", (data) => dropDisk(data));
-    return () => detach("oppturn");
+    listen("syncState", (data) => {
+      console.log("syncState", data);
+      setBoard(data.boardState);
+      boardRef.current = data.boardState;
+      setCurrentPlayer(data.currentPlayer);
+      updateTimer(data.currentPlayer, data.startTime);
+      if (Util.checkWin(boardRef.current, data.currentPlayer)) {
+        if (MyTurn()) endGame("won");
+        else endGame("lost");
+      }
+    });
+    return () => {
+      detach("oppturn");
+      detach("syncState");
+    };
   }, [dropDisk]);
 
   const turnHandler = (cellInd) => {

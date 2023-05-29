@@ -51,7 +51,6 @@ const Index = () => {
     };
     if (roomId) checkDataValidity();
   }, [roomId]);
-
   useEffect(() => {
     if (roomId && username && userId && photo) {
       emit("join-room", {
@@ -62,7 +61,9 @@ const Index = () => {
         host: Boolean(host),
       });
     }
+  }, [roomId, username, userId, photo]);
 
+  useEffect(() => {
     listen("start-game", (data) => {
       data.forEach((e) => {
         if (e.UserId === userId) {

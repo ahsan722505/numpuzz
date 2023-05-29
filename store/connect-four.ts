@@ -1,5 +1,45 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { emit } from "../websocket";
+type User = {
+  gameId: 1 | 2;
+  username: string;
+  host: boolean;
+  userId: string;
+  wins: number;
+  photo: string;
+} | null;
+
+type Timer = {
+  circleDashArray: [number, number];
+  remainingPathColor: string;
+  timePassed: number;
+};
+export type ConnectFourState = {
+  self: User;
+  opponent: User;
+  loading: boolean;
+  waitingForOpponent: boolean;
+  persistedRoomId: string;
+  currentPlayer: 1 | 2;
+  resultStatus: String;
+  timer1: Timer;
+  timer2: Timer;
+  updateTimer: (gameId: 1 | 2, startTime?: string) => void;
+  updateCurrentPlayer: (boardState: number[][], roomId: string) => void;
+  setResultStatus: (arg: string) => void;
+  endGame: (arg: "won" | "lost") => void;
+  startGame: () => void;
+  setLoading: (loading: boolean) => void;
+  setSelf: (arg: User) => void;
+  setOpponent: (arg: User) => void;
+  incrementSelfWins: () => void;
+  incrementOpponentWins: () => void;
+  setWaitingForOpponent: (arg: boolean) => void;
+  flushState: () => void;
+  setPersistedRoomId: (arg: string) => void;
+  setCurrentPlayer: (arg: 1 | 2) => void;
+};
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
 const ALERT_THRESHOLD = 5;
@@ -31,45 +71,31 @@ function getRemainingPathColor(timePassed) {
   else if (timeLeft <= warning.threshold) return warning.color;
   else return info.color;
 }
-type User = {
-  gameId: 1 | 2;
-  username: string;
-  host: boolean;
-  userId: string;
-  wins: number;
-  photo: string;
-} | null;
 
-type Timer = {
-  circleDashArray: [number, number];
-  remainingPathColor: string;
-  timePassed: number;
-  startingTime: Date;
-};
-export type ConnectFourState = {
-  self: User;
-  opponent: User;
-  loading: boolean;
-  waitingForOpponent: boolean;
-  persistedRoomId: string;
-  currentPlayer: 1 | 2;
-  resultStatus: String;
-  timer1: Timer;
-  timer2: Timer;
-  updateTimer: (gameId: 1 | 2) => void;
-  updateCurrentPlayer: () => void;
-  setResultStatus: (arg: string) => void;
-  endGame: (arg: "won" | "lost") => void;
-  startGame: () => void;
-  setLoading: (loading: boolean) => void;
-  setSelf: (arg: User) => void;
-  setOpponent: (arg: User) => void;
-  incrementSelfWins: () => void;
-  incrementOpponentWins: () => void;
-  setWaitingForOpponent: (arg: boolean) => void;
-  flushState: () => void;
-  setPersistedRoomId: (arg: string) => void;
-};
+function changeTurn(
+  state: ConnectFourState,
+  boardState: number[][],
+  roomId: string
+): ConnectFourState {
+  const updatedCurrentPlayer = state.currentPlayer === 1 ? 2 : 1;
+  const startTime = new Date().toISOString();
+  emit("saveState", {
+    boardState,
+    currentPlayer: updatedCurrentPlayer,
+    startTime,
+    roomId,
+  });
+  return {
+    ...state,
+    currentPlayer: updatedCurrentPlayer,
+    [`timer${state.currentPlayer}`]: {
+      circleDashArray: [283, 283],
+      remainingPathColor: COLOR_CODES.info.color,
+      timePassed: 0,
+      startingTime: new Date(),
+    },
+  };
+}
 
 const useConnectFourStore = create<ConnectFourState>()(
   persist(
@@ -93,63 +119,67 @@ const useConnectFourStore = create<ConnectFourState>()(
         timePassed: 0,
         startingTime: new Date(),
       },
-      updateTimer: (gameId) => {
+      updateTimer: (gameId, startTime) => {
         set((state) => {
           const key = `timer${gameId}`;
-          const prevTimePassed = (state[key] as Timer).timePassed;
-          let startingTime = (state[key] as Timer).startingTime;
-          // let timePassed = Math.floor(
-          //   (new Date().getTime() - new Date(startingTime).getTime()) / 1000
-          // );
-          if (prevTimePassed === 0) {
-            startingTime = new Date();
-            // timePassed = 1;
+          let timePassed;
+          if (startTime) {
+            timePassed = Math.floor(
+              (new Date().getTime() - new Date(startTime).getTime()) / 1000
+            );
+          } else {
+            timePassed = (state[key] as Timer).timePassed + 1;
           }
-          const timePassed = (state[key] as Timer).timePassed + 1;
-
           const timeLeft = TIME_LIMIT - timePassed;
           if (timeLeft === 0) {
-            const newState: ConnectFourState = {
-              ...state,
-              [key]: {
-                circleDashArray: [283, 283],
-                remainingPathColor: COLOR_CODES.info.color,
-                timePassed: 0,
-                startingTime: new Date(),
-              },
-              currentPlayer: state.currentPlayer === 1 ? 2 : 1,
-            };
-            return newState;
+            return changeTurn(state, [], state.persistedRoomId);
           }
           const circleDashArray = [getRemainingProgress(timePassed), 283];
           const remainingPathColor = getRemainingPathColor(timePassed);
-          const newState = {
+          let newState = {
             ...state,
             [key]: {
               circleDashArray,
               remainingPathColor,
               timePassed,
-              startingTime,
             },
           };
+          if (startTime) {
+            const key2 = `timer${gameId === 1 ? 2 : 1}`;
+            newState = {
+              ...state,
+              [key]: {
+                circleDashArray,
+                remainingPathColor,
+                timePassed,
+              },
+              [key2]: {
+                circleDashArray: [283, 283],
+                remainingPathColor: COLOR_CODES.info.color,
+                timePassed: 0,
+              },
+            };
+          }
           return newState;
         });
       },
-      updateCurrentPlayer: () =>
-        set((state) => ({
-          ...state,
-          currentPlayer: state.currentPlayer === 1 ? 2 : 1,
-          [`timer${state.currentPlayer}`]: {
-            circleDashArray: [283, 283],
-            remainingPathColor: COLOR_CODES.info.color,
-            timePassed: 0,
-            startingTime: new Date(),
-          },
-        })),
+      updateCurrentPlayer: (boardState: number[][], roomId: string) =>
+        set((state) => changeTurn(state, boardState, roomId)),
+      setCurrentPlayer: (currentPlayer) => set({ currentPlayer }),
       endGame: (result) => {
         if (result === "won") {
           set((state) => ({
             ...state,
+            timer1: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
+            timer2: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
             resultStatus: "You won!",
             currentPlayer: null,
             waitingForOpponent: true,
@@ -158,6 +188,16 @@ const useConnectFourStore = create<ConnectFourState>()(
         } else {
           set((state) => ({
             ...state,
+            timer1: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
+            timer2: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
             currentPlayer: null,
             waitingForOpponent: true,
             resultStatus: "You lost!",
@@ -192,13 +232,11 @@ const useConnectFourStore = create<ConnectFourState>()(
             circleDashArray: [283, 283],
             remainingPathColor: COLOR_CODES.info.color,
             timePassed: 0,
-            startingTime: new Date(),
           },
           timer2: {
             circleDashArray: [283, 283],
             remainingPathColor: COLOR_CODES.info.color,
             timePassed: 0,
-            startingTime: new Date(),
           },
         }),
     }),
