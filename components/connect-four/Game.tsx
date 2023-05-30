@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import styles from "./Game.module.scss";
 import FirstRow from "./FirstRow";
@@ -23,6 +23,7 @@ const Game = () => {
     emit("leaveGame", { oppId: opponent.userId, roomId });
     router.push("/connect-four");
     flushState();
+    localStorage.removeItem("connectFourBoard");
   };
 
   return (

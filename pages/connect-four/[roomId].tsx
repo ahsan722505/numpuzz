@@ -34,6 +34,7 @@ const Index = () => {
   const username = useGlobalStore((state) => state.username);
   const userId = useGlobalStore((state) => state.userId);
   const photo = useGlobalStore((state) => state.photo);
+  const [validRoom, setValidRoom] = React.useState(false);
   const router = useRouter();
   const { host, roomId } = router.query;
   console.log("self", self);
@@ -44,7 +45,6 @@ const Index = () => {
         console.log("clearing storage");
         flushState();
         localStorage.removeItem("connectFourBoard");
-        localStorage.removeItem("connectFourTimeSnapShot");
         setPersistedRoomId(roomId as string);
       }
       setLoading(false);
@@ -62,6 +62,7 @@ const Index = () => {
       });
     }
   }, [roomId, username, userId, photo]);
+  console.log("opponent", opponent);
 
   useEffect(() => {
     listen("start-game", (data) => {
@@ -98,11 +99,19 @@ const Index = () => {
     listen("playAgain", () => {
       startGame();
     });
+    listen("badRequest", () => {
+      router.push("/404");
+    });
+    listen("validRoom", () => {
+      setValidRoom(true);
+    });
     listen("leaveGame", () => {
+      console.log("opponent2", opponent);
       setNotification({
         message: `${opponent?.username} left the game.`,
       });
       router.push("/connect-four");
+      localStorage.removeItem("connectFourBoard");
       flushState();
     });
 
@@ -115,8 +124,8 @@ const Index = () => {
   }, [roomId, username, userId, opponent, self]);
   return (
     <>
-      {(loading || authLoading) && <Loader />}
-      {!loading && !authLoading && <Game />}
+      {(loading || authLoading || !validRoom) && <Loader />}
+      {!loading && !authLoading && validRoom && <Game />}
     </>
   );
 };
