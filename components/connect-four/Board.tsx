@@ -79,10 +79,6 @@ const Board = ({ resetBoard }) => {
       boardRef.current = data.boardState;
       setCurrentPlayer(data.currentPlayer);
       updateTimer(data.currentPlayer, data.startTime);
-      if (Util.checkWin(boardRef.current, data.currentPlayer)) {
-        if (MyTurn()) endGame("won");
-        else endGame("lost");
-      }
     });
     return () => {
       detach("oppturn");
