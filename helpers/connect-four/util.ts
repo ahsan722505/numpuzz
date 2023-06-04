@@ -32,6 +32,9 @@ export class Util {
     }
     return false;
   }
+  static checkDraw(mat) {
+    return mat.every((each) => each.every((el) => el !== 0));
+  }
   static goLeft(mat, player, row, col) {
     if (col - 3 >= 0) {
       let j = 1;
@@ -94,12 +97,18 @@ export class Util {
     const el4 = mat[row + 1] && mat[row + 1][col - 1];
     return [el1, el2, el3, el4].every((each) => each === player);
   }
-  static saveBoardToDisk(board: number[][], player: 1 | 2, cellInd: number) {
+  static saveBoardToDisk(
+    board: number[][],
+    player: 1 | 2,
+    cellInd: number
+  ): "valid" | "invalid" {
     board = this.createCopy(board);
     let i = board.length - 1;
-    while (board[i][cellInd] !== 0 && i >= 0) i--;
-    if (i >= 0) board[i][cellInd] = player;
+    while (i >= 0 && board[i][cellInd] !== 0) i--;
+    if (i < 0) return "invalid";
+    board[i][cellInd] = player;
     localStorage.setItem("connectFourBoard", JSON.stringify(board));
+    return "valid";
   }
   static readBoardFromDisk(gameDim: number) {
     const board = localStorage.getItem("connectFourBoard");

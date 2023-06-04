@@ -36,7 +36,7 @@ const Index = () => {
   const photo = useGlobalStore((state) => state.photo);
   const [validRoom, setValidRoom] = React.useState(false);
   const router = useRouter();
-  const { host, roomId } = router.query;
+  const { roomId } = router.query;
   console.log("self", self);
 
   useEffect(() => {
@@ -58,7 +58,6 @@ const Index = () => {
         roomId,
         userId,
         photo,
-        host: Boolean(host),
       });
     }
   }, [roomId, username, userId, photo]);
@@ -70,7 +69,6 @@ const Index = () => {
         if (e.UserId === userId) {
           setSelf({
             username: e.Username,
-            host: e.Host,
             userId: e.UserId,
             wins: 0,
             gameId: e.GameId,
@@ -79,7 +77,6 @@ const Index = () => {
         } else {
           setOpponent({
             username: e.Username,
-            host: e.Host,
             userId: e.UserId,
             wins: 0,
             gameId: e.GameId,

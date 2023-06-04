@@ -4,7 +4,6 @@ import { emit } from "../websocket";
 type User = {
   gameId: 1 | 2;
   username: string;
-  host: boolean;
   userId: string;
   wins: number;
   photo: string;
@@ -25,10 +24,12 @@ export type ConnectFourState = {
   resultStatus: String;
   timer1: Timer;
   timer2: Timer;
+  selfMessage: string;
+  opponentMessage: string;
   updateTimer: (gameId: 1 | 2, startTime?: string) => void;
   updateCurrentPlayer: (boardState: number[][], roomId: string) => void;
   setResultStatus: (arg: string) => void;
-  endGame: (arg: "won" | "lost") => void;
+  endGame: (arg: "won" | "lost" | "tie") => void;
   startGame: () => void;
   setLoading: (loading: boolean) => void;
   setSelf: (arg: User) => void;
@@ -39,6 +40,7 @@ export type ConnectFourState = {
   flushState: () => void;
   setPersistedRoomId: (arg: string) => void;
   setCurrentPlayer: (arg: 1 | 2) => void;
+  setMessage(arg: { message: string; type: "self" | "opponent" }): void;
 };
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
@@ -107,6 +109,8 @@ const useConnectFourStore = create<ConnectFourState>()(
       opponent: null,
       currentPlayer: null,
       resultStatus: "",
+      selfMessage: "",
+      opponentMessage: "",
       timer1: {
         circleDashArray: [283, 283],
         remainingPathColor: COLOR_CODES.info.color,
@@ -118,6 +122,13 @@ const useConnectFourStore = create<ConnectFourState>()(
         remainingPathColor: COLOR_CODES.info.color,
         timePassed: 0,
         startingTime: new Date(),
+      },
+      setMessage: ({ message, type }) => {
+        if (type === "self") {
+          set({ selfMessage: message });
+        } else {
+          set({ opponentMessage: message });
+        }
       },
       updateTimer: (gameId, startTime) => {
         set((state) => {
@@ -185,7 +196,7 @@ const useConnectFourStore = create<ConnectFourState>()(
             waitingForOpponent: true,
             self: { ...state.self, wins: state.self.wins + 1 },
           }));
-        } else {
+        } else if (result === "lost") {
           set((state) => ({
             ...state,
             timer1: {
@@ -202,6 +213,23 @@ const useConnectFourStore = create<ConnectFourState>()(
             waitingForOpponent: true,
             resultStatus: "You lost!",
             opponent: { ...state.opponent, wins: state.opponent.wins + 1 },
+          }));
+        } else {
+          set((state) => ({
+            ...state,
+            timer1: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
+            timer2: {
+              circleDashArray: [283, 283],
+              remainingPathColor: COLOR_CODES.info.color,
+              timePassed: 0,
+            },
+            currentPlayer: null,
+            waitingForOpponent: true,
+            resultStatus: "Match Tied!",
           }));
         }
       },
@@ -224,6 +252,8 @@ const useConnectFourStore = create<ConnectFourState>()(
       flushState: () =>
         set({
           waitingForOpponent: true,
+          selfMessage: "",
+          opponentMessage: "",
           self: null,
           opponent: null,
           currentPlayer: null,

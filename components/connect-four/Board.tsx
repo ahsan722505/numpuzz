@@ -17,6 +17,7 @@ const Board = ({ resetBoard }) => {
   const opponent = useConnectFourStore((state) => state.opponent);
   const self = useConnectFourStore((state) => state.self);
   const router = useRouter();
+  const blockUserInteraction = useRef(false);
   const { roomId } = router.query;
   const gameDim = 6;
   const [board, setBoard] = useState(() => Util.readBoardFromDisk(gameDim));
@@ -31,7 +32,6 @@ const Board = ({ resetBoard }) => {
   const MyTurn = () => self?.gameId === currentPlayer;
   const dropDisk = useCallback(
     (col) => {
-      Util.saveBoardToDisk(boardRef.current, currentPlayer, col);
       let i = 0;
       const id = setInterval(() => {
         if (
@@ -48,6 +48,16 @@ const Board = ({ resetBoard }) => {
             });
             if (MyTurn()) endGame("won");
             else endGame("lost");
+            return;
+          }
+          if (Util.checkDraw(boardRef.current)) {
+            emit("saveState", {
+              boardState: boardRef.current,
+              currentPlayer,
+              startTime: "",
+              roomId,
+            });
+            endGame("tie");
             return;
           }
           updateCurrentPlayer(boardRef.current, roomId.toString());
@@ -72,9 +82,13 @@ const Board = ({ resetBoard }) => {
   }, [resetBoard]);
 
   useEffect(() => {
-    listen("oppturn", (data) => dropDisk(data));
+    listen("oppturn", (data) => {
+      const move = Util.saveBoardToDisk(boardRef.current, currentPlayer, data);
+      if (move === "invalid") return;
+      dropDisk(data);
+    });
     listen("syncState", (data) => {
-      console.log("syncState", data);
+      console.log("shafiq", data);
       setBoard(data.boardState);
       boardRef.current = data.boardState;
       setCurrentPlayer(data.currentPlayer);
@@ -86,8 +100,17 @@ const Board = ({ resetBoard }) => {
     };
   }, [dropDisk]);
 
+  if (!MyTurn()) blockUserInteraction.current = false;
+
   const turnHandler = (cellInd) => {
+    if (blockUserInteraction.current) return;
+    blockUserInteraction.current = true;
     if (!MyTurn() || waitingForOpponent) return;
+    const move = Util.saveBoardToDisk(boardRef.current, currentPlayer, cellInd);
+    if (move === "invalid") {
+      blockUserInteraction.current = false;
+      return;
+    }
     emit("myturn", { cellInd, roomId, oppId: opponent.userId });
     dropDisk(cellInd);
   };

@@ -18,7 +18,7 @@ const Index = () => {
   const createRoom = () => {
     emit("create-room", { username, userId, photo });
     listen("room-created", (roomId) => {
-      router.push(`connect-four/${roomId}?host=true`);
+      router.push(`connect-four/${roomId}`);
     });
   };
 

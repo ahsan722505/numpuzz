@@ -6,6 +6,8 @@ import Result from "./Result";
 import { useRouter } from "next/router";
 import { emit } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
+import { Input } from "antd";
+import MessageInput from "./MessageInput";
 const Game = () => {
   const opponent = useConnectFourStore((state) => state.opponent);
   const flushState = useConnectFourStore((state) => state.flushState);
@@ -28,6 +30,7 @@ const Game = () => {
 
   return (
     <div className={styles.game}>
+      <MessageInput />
       <FirstRow />
       <Board resetBoard={resetBoard} />
       {resultStatus && <Result playAgain={playAgain} leaveGame={LeaveGame} />}
