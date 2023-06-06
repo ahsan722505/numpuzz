@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from "react";
-import styles from "./Board.module.scss";
 import { Util } from "../../helpers/connect-four/util";
 import { useState } from "react";
 import { useRef } from "react";
 import { useRouter } from "next/router";
 import { detach, emit, listen } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
+
 const Board = ({ resetBoard }) => {
   const waitingForOpponent = useConnectFourStore(
     (state) => state.waitingForOpponent
@@ -20,6 +20,7 @@ const Board = ({ resetBoard }) => {
   const blockUserInteraction = useRef(false);
   const { roomId } = router.query;
   const gameDim = 6;
+  const sound = new Audio("/touch.wav");
   const [board, setBoard] = useState(() => Util.readBoardFromDisk(gameDim));
   const boardRef = useRef(board);
   const currentPlayer = useConnectFourStore((state) => state.currentPlayer);
@@ -38,6 +39,7 @@ const Board = ({ resetBoard }) => {
           (boardRef.current[i] && boardRef.current[i][col] > 0) ||
           i === board.length
         ) {
+          sound.play().catch((err) => console.log(err));
           clearInterval(id);
           if (Util.checkWin(boardRef.current, currentPlayer)) {
             emit("saveState", {
@@ -88,7 +90,6 @@ const Board = ({ resetBoard }) => {
       dropDisk(data);
     });
     listen("syncState", (data) => {
-      console.log("shafiq", data);
       setBoard(data.boardState);
       boardRef.current = data.boardState;
       setCurrentPlayer(data.currentPlayer);
@@ -116,7 +117,7 @@ const Board = ({ resetBoard }) => {
   };
 
   return (
-    <div className={styles.board} onClick={(e) => console.log(e)}>
+    <div className="bg-darkPurple h-[95vmin] w-[95vmin] sm:h-[70vmin] sm:w-[70vmin]">
       {board.map((eachRow, rowInd) => {
         return (
           <div
@@ -132,11 +133,11 @@ const Board = ({ resetBoard }) => {
                     width: `${100 / gameDim}%`,
                   }}
                   key={cellInd}
-                  className={styles.cell}
+                  className="cursor-pointer h-full inline-block p-1"
                   onClick={() => turnHandler(cellInd)}
                 >
                   <div
-                    className={styles.circle}
+                    className="w-full h-full rounded-[2.5rem]"
                     style={{
                       backgroundColor: Util.getColor(eachCell),
                     }}

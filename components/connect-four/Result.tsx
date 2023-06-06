@@ -20,7 +20,6 @@ const Result = ({
   return (
     <Dialog
       open={Boolean(resultStatus)}
-      onClose={() => setResultStatus("")}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

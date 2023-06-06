@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Board from "./Board";
-import styles from "./Game.module.scss";
 import FirstRow from "./FirstRow";
 import Result from "./Result";
 import { useRouter } from "next/router";
@@ -8,6 +7,7 @@ import { emit } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
 import { Input } from "antd";
 import MessageInput from "./MessageInput";
+import CopyLink from "./CopyLink";
 const Game = () => {
   const opponent = useConnectFourStore((state) => state.opponent);
   const flushState = useConnectFourStore((state) => state.flushState);
@@ -29,12 +29,15 @@ const Game = () => {
   };
 
   return (
-    <div className={styles.game}>
+    <>
       <MessageInput />
-      <FirstRow />
-      <Board resetBoard={resetBoard} />
-      {resultStatus && <Result playAgain={playAgain} leaveGame={LeaveGame} />}
-    </div>
+      <div className="w-screen h-[75vh] md:h-[92vh] flex justify-center items-center flex-col">
+        <FirstRow />
+        <Board resetBoard={resetBoard} />
+        {resultStatus && <Result playAgain={playAgain} leaveGame={LeaveGame} />}
+        <CopyLink />
+      </div>
+    </>
   );
 };
 

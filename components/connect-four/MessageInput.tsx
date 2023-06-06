@@ -1,8 +1,9 @@
-import { Button, Input } from "antd";
+import { Input } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import useConnectFourStore from "../../store/connect-four";
 import { emit, listen } from "../../websocket";
 import { useRouter } from "next/router";
+import Button from "../../components/number-riddle/Button";
 
 const MessageInput = () => {
   const [messageInput, setMessageInput] = useState("");
@@ -14,7 +15,7 @@ const MessageInput = () => {
 
   const sendMessageHandler = (e) => {
     e.preventDefault();
-    if (messageInput.trim().length === 0) return;
+    if (messageInput.trim().length === 0 || !opponent) return;
     clearTimeout(selfIntervalRef.current);
     setMessage({ message: messageInput, type: "self" });
     emit("sendMessage", {
@@ -39,14 +40,24 @@ const MessageInput = () => {
     });
   }, []);
   return (
-    <form onSubmit={sendMessageHandler} className="flex justify-start w-full">
+    <form
+      onSubmit={sendMessageHandler}
+      className="flex justify-center w-full mt-6"
+    >
       <Input
-        className="w-2/6 md:w-1/6"
+        className="w-3/4 md:w-[30%]"
         placeholder="Enter Message"
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
       />
-      <Button className="ml-2" type="primary" htmlType="submit">
+      <Button
+        type="submit"
+        style={{
+          padding: ".3rem .8rem",
+          fontSize: ".8rem",
+          marginLeft: "1rem",
+        }}
+      >
         Send
       </Button>
     </form>

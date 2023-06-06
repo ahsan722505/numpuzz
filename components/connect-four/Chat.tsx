@@ -9,7 +9,13 @@ const Chat = ({
   message: string;
 }) => {
   return (
-    <Tooltip placement="bottomLeft" title={message} open={Boolean(message)}>
+    <Tooltip
+      color="white"
+      style={{ marginTop: "-50px" }}
+      placement="bottomLeft"
+      title={<p className="text-darkPurple">{message}</p>}
+      open={Boolean(message)}
+    >
       {children}
     </Tooltip>
   );

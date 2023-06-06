@@ -22,11 +22,14 @@ export type ConnectFourState = {
   persistedRoomId: string;
   currentPlayer: 1 | 2;
   resultStatus: String;
+  showLinkModal: boolean;
   timer1: Timer;
   timer2: Timer;
+  sound: HTMLAudioElement | null;
   selfMessage: string;
   opponentMessage: string;
   updateTimer: (gameId: 1 | 2, startTime?: string) => void;
+  setShowLinkModal: (arg: boolean) => void;
   updateCurrentPlayer: (boardState: number[][], roomId: string) => void;
   setResultStatus: (arg: string) => void;
   endGame: (arg: "won" | "lost" | "tie") => void;
@@ -102,7 +105,9 @@ function changeTurn(
 const useConnectFourStore = create<ConnectFourState>()(
   persist(
     (set) => ({
+      sound: typeof window !== "undefined" ? new Audio("/touch.wav") : null,
       persistedRoomId: "",
+      showLinkModal: false,
       loading: true,
       waitingForOpponent: true,
       self: null,
@@ -122,6 +127,9 @@ const useConnectFourStore = create<ConnectFourState>()(
         remainingPathColor: COLOR_CODES.info.color,
         timePassed: 0,
         startingTime: new Date(),
+      },
+      setShowLinkModal(arg) {
+        set({ showLinkModal: arg });
       },
       setMessage: ({ message, type }) => {
         if (type === "self") {
@@ -274,7 +282,9 @@ const useConnectFourStore = create<ConnectFourState>()(
       name: "connectFourState",
       partialize: (state) =>
         Object.fromEntries(
-          Object.entries(state).filter(([key]) => key !== "loading")
+          Object.entries(state).filter(
+            ([key]) => key !== "loading" && key !== "showLinkModal"
+          )
         ),
     }
   )

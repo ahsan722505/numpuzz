@@ -1,5 +1,3 @@
-import { ConnectFourState } from "../../store/connect-four";
-
 export class Util {
   static CreateBoard(gameDim) {
     let board = [];
@@ -15,9 +13,9 @@ export class Util {
     return board.map((each) => each.slice());
   }
   static getColor(num) {
-    if (num === 1) return "black";
-    if (num === 2) return "yellow";
-    return "";
+    if (num === 1) return "white";
+    if (num === 2) return "#66b2ff";
+    return "#0a1929";
   }
   static checkWin(mat, player) {
     for (let i = 0; i < mat.length; i++) {
