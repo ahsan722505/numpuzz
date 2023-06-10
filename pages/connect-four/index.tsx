@@ -50,7 +50,7 @@ const Index = () => {
           <h1 className="text-center text-purple text-3xl mt-16">
             Connect four dots in any direction!
           </h1>
-          <div className="w-screen h-[80vh] flex justify-center items-center flex-col">
+          <div className="w-screen h-[60vh] flex justify-center items-center flex-col">
             <Button
               onClick={playWithBot}
               style={{ padding: "1rem", marginBottom: "2rem" }}
