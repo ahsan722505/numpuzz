@@ -9,6 +9,7 @@ type User = {
   photo: string;
 } | null;
 
+type GameMode = "bot" | "friend";
 type Timer = {
   circleDashArray: [number, number];
   remainingPathColor: string;
@@ -32,7 +33,7 @@ export type ConnectFourState = {
   setShowLinkModal: (arg: boolean) => void;
   updateCurrentPlayer: (boardState: number[][], roomId: string) => void;
   setResultStatus: (arg: string) => void;
-  endGame: (arg: "won" | "lost" | "tie") => void;
+  endGame: (arg: "won" | "lost" | "tie", gameMode: GameMode) => void;
   startGame: () => void;
   setLoading: (loading: boolean) => void;
   setSelf: (arg: User) => void;
@@ -185,7 +186,8 @@ const useConnectFourStore = create<ConnectFourState>()(
       updateCurrentPlayer: (boardState: number[][], roomId: string) =>
         set((state) => changeTurn(state, boardState, roomId)),
       setCurrentPlayer: (currentPlayer) => set({ currentPlayer }),
-      endGame: (result) => {
+      endGame: (result, gameMode) => {
+        const waitingForOpponent = gameMode === "friend";
         if (result === "won") {
           set((state) => ({
             ...state,
@@ -201,7 +203,7 @@ const useConnectFourStore = create<ConnectFourState>()(
             },
             resultStatus: "You won!",
             currentPlayer: null,
-            waitingForOpponent: true,
+            waitingForOpponent,
             self: { ...state.self, wins: state.self.wins + 1 },
           }));
         } else if (result === "lost") {
@@ -218,7 +220,7 @@ const useConnectFourStore = create<ConnectFourState>()(
               timePassed: 0,
             },
             currentPlayer: null,
-            waitingForOpponent: true,
+            waitingForOpponent,
             resultStatus: "You lost!",
             opponent: { ...state.opponent, wins: state.opponent.wins + 1 },
           }));
@@ -236,7 +238,7 @@ const useConnectFourStore = create<ConnectFourState>()(
               timePassed: 0,
             },
             currentPlayer: null,
-            waitingForOpponent: true,
+            waitingForOpponent,
             resultStatus: "Match Tied!",
           }));
         }

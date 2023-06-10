@@ -20,7 +20,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
-        <h1>Numpuzz</h1>
+        <h1 className="font-bold text-3xl">Numpuzz</h1>
         <div className={styles.authSection}>
           {loading && <h2>Numpuzz User</h2>}
           {!loading && !isLoggedIn && <Login />}
@@ -30,7 +30,7 @@ export default function Home() {
 
       <main>
         <div>
-          <h3>Play Zone</h3>
+          <h3 className="text-xl mt-2">Play Zone</h3>
           {Util.getGames().map((each) => (
             <GameLink key={each.url} name={each.name} url={each.url} />
           ))}

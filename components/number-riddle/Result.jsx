@@ -10,6 +10,7 @@ const Result = ({ playAgainHandler, timeTaken }) => {
   const { best, gameDim, other, play } = useSelector(
     (state) => state.numberRiddle
   );
+  console.log(best, gameDim);
   const dispatch = useDispatch();
   return (
     <Modal className={styles.result} open={true}>

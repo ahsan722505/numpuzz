@@ -31,6 +31,7 @@ const Board = ({ resetBoard }) => {
   );
   const endGame = useConnectFourStore((state) => state.endGame);
   const MyTurn = () => self?.gameId === currentPlayer;
+  const gameMode = roomId === "bot" ? "bot" : "friend";
   const dropDisk = useCallback(
     (col) => {
       let i = 0;
@@ -48,8 +49,8 @@ const Board = ({ resetBoard }) => {
               startTime: "",
               roomId,
             });
-            if (MyTurn()) endGame("won");
-            else endGame("lost");
+            if (MyTurn()) endGame("won", gameMode);
+            else endGame("lost", gameMode);
             return;
           }
           if (Util.checkDraw(boardRef.current)) {
@@ -59,7 +60,7 @@ const Board = ({ resetBoard }) => {
               startTime: "",
               roomId,
             });
-            endGame("tie");
+            endGame("tie", gameMode);
             return;
           }
           updateCurrentPlayer(boardRef.current, roomId.toString());
@@ -101,12 +102,14 @@ const Board = ({ resetBoard }) => {
     };
   }, [dropDisk]);
 
-  if (!MyTurn()) blockUserInteraction.current = false;
+  if (!MyTurn()) {
+    console.log("push");
+    blockUserInteraction.current = false;
+  }
 
   const turnHandler = (cellInd) => {
-    if (blockUserInteraction.current) return;
+    if (blockUserInteraction.current || !MyTurn() || waitingForOpponent) return;
     blockUserInteraction.current = true;
-    if (!MyTurn() || waitingForOpponent) return;
     const move = Util.saveBoardToDisk(boardRef.current, currentPlayer, cellInd);
     if (move === "invalid") {
       blockUserInteraction.current = false;
@@ -115,6 +118,18 @@ const Board = ({ resetBoard }) => {
     emit("myturn", { cellInd, roomId, oppId: opponent.userId });
     dropDisk(cellInd);
   };
+
+  useEffect(() => {
+    if (currentPlayer === 2 && roomId === "bot") {
+      // bot's turn
+      const col = Math.floor(Math.random() * 6);
+      const move = Util.saveBoardToDisk(boardRef.current, currentPlayer, col);
+      if (move === "invalid") return;
+      setTimeout(() => {
+        dropDisk(col);
+      }, 3000);
+    }
+  }, [currentPlayer, roomId]);
 
   return (
     <div className="bg-darkPurple h-[95vmin] w-[95vmin] sm:h-[70vmin] sm:w-[70vmin]">

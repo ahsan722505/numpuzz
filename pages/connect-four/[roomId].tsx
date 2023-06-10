@@ -52,6 +52,7 @@ const Index = () => {
     if (roomId) checkDataValidity();
   }, [roomId]);
   useEffect(() => {
+    if (roomId === "bot") return;
     if (roomId && username && userId && photo) {
       emit("join-room", {
         username,
@@ -61,9 +62,31 @@ const Index = () => {
       });
     }
   }, [roomId, username, userId, photo]);
-  console.log("opponent", opponent);
 
   useEffect(() => {
+    if (roomId === "bot" && username && userId && photo) {
+      // setting up game for bot mode
+      setValidRoom(true);
+      setSelf({
+        username,
+        userId,
+        wins: 0,
+        gameId: 1,
+        photo,
+      });
+      setOpponent({
+        username: "ahsan.js",
+        userId: "bot",
+        wins: 0,
+        gameId: 2,
+        photo: "/bot.jpg",
+      });
+      startGame();
+    }
+  }, [roomId, username, userId, photo]);
+
+  useEffect(() => {
+    if (roomId === "bot") return;
     listen("start-game", (data) => {
       data.forEach((e) => {
         if (e.UserId === userId) {

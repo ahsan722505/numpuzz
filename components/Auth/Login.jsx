@@ -83,10 +83,12 @@ const Login = (props) => {
               />
             </div>
             <div>
-              <h2>Sign in to</h2>
-              <h1>Numpuzz</h1>
+              <h2 className="font-bold text-2xl">Sign in to</h2>
+              <h1 className="font-bold text-3xl">Numpuzz</h1>
             </div>
-            <h3>Login to get featured in leaderboards.</h3>
+            <h3 className="font-bold text-xl">
+              Login to get featured in leaderboards.
+            </h3>
             <div>
               {providers.map((each) => (
                 <AuthProvider

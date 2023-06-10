@@ -14,6 +14,8 @@ if (clientSide) {
   };
 }
 export function emit(type, data) {
+  const gameMode = window.location.pathname.split("/")[2];
+  if (gameMode === "bot") return;
   socket.send(JSON.stringify({ Type: type, Data: data }));
 }
 export function listen(type, callback) {

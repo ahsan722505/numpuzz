@@ -27,6 +27,10 @@ const Index = () => {
       setShowLinkModal(true);
     });
   };
+
+  const playWithBot = () => {
+    router.push("connect-four/bot");
+  };
   const playWithFriendButtonContent = createRoomLoading
     ? "Creating room..."
     : "Play with friend";
@@ -40,7 +44,10 @@ const Index = () => {
             Connect four dots in any direction!
           </h1>
           <div className="w-screen h-[80vh] flex justify-center items-center flex-col">
-            <Button style={{ padding: "1rem", marginBottom: "2rem" }}>
+            <Button
+              onClick={playWithBot}
+              style={{ padding: "1rem", marginBottom: "2rem" }}
+            >
               Play with bot
             </Button>
             <Button style={{ padding: "1rem" }} onClick={createRoom}>
