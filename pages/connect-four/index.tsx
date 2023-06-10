@@ -23,6 +23,7 @@ const Index = () => {
     setCreateRoomLoading(true);
     emit("create-room", { username, userId, photo });
     listen("room-created", async (roomId) => {
+      console.log("roomId", roomId);
       router.push(`connect-four/${roomId}`);
       setShowLinkModal(true);
     });
