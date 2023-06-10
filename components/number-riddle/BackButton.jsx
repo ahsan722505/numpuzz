@@ -5,12 +5,13 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { endGame } from "../../reduxStore/NumberRiddleSlice";
-const BackButton = ({ home, riddleHome }) => {
+const BackButton = ({ home, riddleHome, style }) => {
   const { play, other } = useSelector((state) => state.numberRiddle);
   const dispatch = useDispatch();
   const router = useRouter();
   return (
     <button
+      style={{ ...style }}
       className={`${styles.back} pointer`}
       onClick={() => {
         if (play) {

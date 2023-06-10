@@ -41,7 +41,7 @@ const LeaderBoard = () => {
     <div className={styles.board}>
       <div>
         <BackButton riddleHome={true} />
-        <h1 className="text-3xl font-bold">Top users with best scores</h1>
+        <h1 className="text-3xl font-bold mt-6">Top users with best scores</h1>
         {!isLoggedIn && (
           <Login style={{ position: "absolute", top: "12px", right: "10px" }} />
         )}

@@ -5,6 +5,7 @@ import useConnectFourStore from "../../store/connect-four";
 import useGlobalStore from "../../store/global";
 import { detach, emit, listen } from "../../websocket";
 import Button from "../../components/number-riddle/Button";
+import BackButton from "../../components/number-riddle/BackButton";
 
 const Index = () => {
   const authLoading = useGlobalStore((state) => state.authLoading);
@@ -41,6 +42,11 @@ const Index = () => {
       {authLoading && <Loader />}
       {!authLoading && (
         <>
+          <BackButton
+            style={{ position: "absolute", top: "12px", left: "12px" }}
+            riddleHome={null}
+            home={true}
+          />
           <h1 className="text-center text-purple text-3xl mt-16">
             Connect four dots in any direction!
           </h1>

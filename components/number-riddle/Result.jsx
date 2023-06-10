@@ -15,13 +15,14 @@ const Result = ({ playAgainHandler, timeTaken }) => {
   return (
     <Modal className={styles.result} open={true}>
       <div className={styles.box}>
-        <h1>Complete</h1>
+        <h1 className="font-bold">Complete</h1>
         <h2>
-          <FontAwesomeIcon icon={faClock} /> <span>Time: {timeTaken}</span>
+          <FontAwesomeIcon icon={faClock} />{" "}
+          <span className="font-bold">Time: {timeTaken}</span>
         </h2>
         <h3>
           <FontAwesomeIcon icon={faCrown} />{" "}
-          <span>Best: {best[gameDim]?.d}</span>
+          <span className="font-bold">Best: {best[gameDim]?.d}</span>
         </h3>
         <div>
           <button
