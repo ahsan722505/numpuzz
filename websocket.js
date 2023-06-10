@@ -19,7 +19,9 @@ export function emit(type, data) {
   if (socket.readyState === 1) {
     socket.send(JSON.stringify({ Type: type, Data: data }));
   } else {
-    emit(type, data);
+    setTimeout(() => {
+      emit(type, data);
+    }, 2000);
   }
 }
 export function listen(type, callback) {
