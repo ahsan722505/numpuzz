@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useRouter } from "next/router";
 import { detach, emit, listen } from "../../websocket";
 import useConnectFourStore from "../../store/connect-four";
+import { getOptimalMove } from "../../helpers/connect-four/minimax";
 
 const Board = ({ resetBoard }) => {
   const waitingForOpponent = useConnectFourStore(
@@ -122,7 +123,7 @@ const Board = ({ resetBoard }) => {
   useEffect(() => {
     if (currentPlayer === 2 && roomId === "bot") {
       // bot's turn
-      const col = Math.floor(Math.random() * 6);
+      const col = getOptimalMove(Util.createCopy(boardRef.current));
       const move = Util.saveBoardToDisk(boardRef.current, currentPlayer, col);
       if (move === "invalid") return;
       setTimeout(() => {

@@ -58,7 +58,7 @@ export default function Home() {
       </main>
       <footer>
         <hr />
-        <div>Copyright © 2022-2022 numpuzz LLC. All rights reserved.</div>
+        <div>Copyright © 2022-2023 numpuzz LLC. All rights reserved.</div>
       </footer>
     </div>
   );
