@@ -23,7 +23,7 @@ const Game = () => {
   return (
     <div className={styles.Game}>
       <FirstLayer />
-      {!startGame && <h1>Target pattern</h1>}
+      {!startGame && <h1 className="text-3xl font-bold">Target pattern</h1>}
       {startGame && (
         <SecondLayer
           recordTime={recordTime}

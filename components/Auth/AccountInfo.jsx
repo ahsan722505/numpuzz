@@ -3,14 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import ProfileImage from "./ProfileImage";
-import { useSelector } from "react-redux";
 import styles from "./AccountInfo.module.scss";
 import Menu from "@mui/material/Menu";
 import { ListItemIcon, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { Util } from "../../helpers/GlobalUtil";
+import useGlobalStore from "../../store/global";
+
 const AccountInfo = () => {
-  const { username, photo } = useSelector((state) => state.global);
+  const photo = useGlobalStore((state) => state.photo);
+  const username = useGlobalStore((state) => state.username);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClose = () => setAnchorEl(null);

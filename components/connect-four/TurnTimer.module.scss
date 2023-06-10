@@ -1,0 +1,29 @@
+.baseTimer {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.baseTimerSvg {
+  transform: scaleX(-1);
+}
+
+.baseTimerCircle {
+  fill: none;
+  stroke: none;
+}
+
+.baseTimerPathElapsed {
+  stroke-width: 7px;
+  stroke: #0a1929;
+}
+
+.baseTimerPathRemaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}

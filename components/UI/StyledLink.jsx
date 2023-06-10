@@ -3,7 +3,9 @@ import Link from "next/link";
 const StyledLink = (props) => {
   return (
     <Link {...props}>
-      <a className={styles.link}>{props.children}</a>
+      <a style={{ ...props.style }} className={styles.link}>
+        {props.children}
+      </a>
     </Link>
   );
 };

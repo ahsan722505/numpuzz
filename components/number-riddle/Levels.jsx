@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
 import Login from "../Auth/Login";
 import StyledLink from "../UI/StyledLink";
+import useGlobalStore from "../../store/global";
 const Levels = () => {
   const dispatch = useDispatch();
   const { play, other } = useSelector((state) => state.numberRiddle);
-  const { isLoggedIn } = useSelector((state) => state.global);
+  const isLoggedIn = useGlobalStore((state) => state.isLoggedIn);
   return (
     <div className={styles.levels}>
       <div>

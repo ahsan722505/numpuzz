@@ -1,6 +1,11 @@
-import { Util } from "../helpers/GlobalUtil";
+export type UserAuthData = {
+  username: string;
+  userId: string;
+  photo: string;
+  isLoggedIn: boolean;
+  message?: string;
+};
 export const getAuthStatusApi = async () => {
-  console.log("auth");
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_NODE_SERVER}/auth/getStatus`,
     {
@@ -11,9 +16,7 @@ export const getAuthStatusApi = async () => {
       },
     }
   );
-  const data = await response.json();
-  console.log(data);
+  const data = (await response.json()) as UserAuthData;
   if (response.status !== 200) throw new Error(data.message);
-  console.log("no");
   return data;
 };

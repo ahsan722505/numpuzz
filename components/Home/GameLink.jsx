@@ -5,7 +5,7 @@ import StyledLink from "../UI/StyledLink";
 
 const GameLink = ({ url, name }) => {
   return (
-    <StyledLink href={url}>
+    <StyledLink style={{ margin: "0 .2rem" }} href={url}>
       <FontAwesomeIcon style={{ marginRight: ".3rem" }} icon={faPlay} />
       <span>{name}</span>
     </StyledLink>
