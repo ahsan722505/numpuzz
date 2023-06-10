@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Time.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setBestThunk } from "../../reduxStore/NumberRiddleSlice";
+import useGlobalStore from "../../store/global";
 const Time = ({ resetGame, setTimeTaken, recordTime }) => {
   const { best, gameDim } = useSelector((state) => state.numberRiddle);
+  const isLoggedIn = useGlobalStore((state) => state.isLoggedIn);
   const dispatch = useDispatch();
   const [duration, setDuration] = useState("00:00");
   const startingTime = useRef(new Date());
@@ -72,13 +74,13 @@ const Time = ({ resetGame, setTimeTaken, recordTime }) => {
           m: new Date() - startingTime.current,
           d: duration,
         };
-        dispatch(setBestThunk(newBest));
+        dispatch(setBestThunk({ best: newBest, isLoggedIn }));
       } else if (new Date() - startingTime.current < best[gameDim].m) {
         newBest[gameDim] = {
           m: new Date() - startingTime.current,
           d: duration,
         };
-        dispatch(setBestThunk(newBest));
+        dispatch(setBestThunk({ best: newBest, isLoggedIn }));
       }
     }
   }, [recordTime, duration, best, gameDim]);

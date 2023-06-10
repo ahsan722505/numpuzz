@@ -33,12 +33,13 @@ export const getTop = createAsyncThunk("getTop", async (size, { dispatch }) => {
 });
 export const setBestThunk = createAsyncThunk(
   "setBestThunk",
-  async (payload, { dispatch, getState }) => {
-    const { isLoggedIn } = getState().global;
+  async (payload, { dispatch }) => {
+    const best = payload.best;
+    const isLoggedIn = payload.isLoggedIn;
     try {
-      dispatch(setBest(payload));
-      if (isLoggedIn) await setBestApi(payload);
-      else localStorage.setItem("best", JSON.stringify(payload));
+      dispatch(setBest(best));
+      if (isLoggedIn) await setBestApi(best);
+      else localStorage.setItem("best", JSON.stringify(best));
     } catch (error) {
       console.log(error.message);
     }

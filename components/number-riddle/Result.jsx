@@ -21,7 +21,7 @@ const Result = ({ playAgainHandler, timeTaken }) => {
         </h2>
         <h3>
           <FontAwesomeIcon icon={faCrown} />{" "}
-          <span>Best: {best[gameDim].d}</span>
+          <span>Best: {best[gameDim]?.d}</span>
         </h3>
         <div>
           <button
