@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import LeaderBoard from "../../components/number-riddle/Leaderboard";
 import Loader from "../../components/UI/Loader";
 import { getTop } from "../../reduxStore/NumberRiddleSlice";
+import useGlobalStore from "../../store/global";
 const Leaderboard = () => {
-  const {
-    global: { loading: authLoading },
-    numberRiddle: { loading, leaderBoardSize, leaderBoardData },
-  } = useSelector((state) => state);
+  const { loading, leaderBoardSize, leaderBoardData } = useSelector(
+    (state) => state.numberRiddle
+  );
+  const authLoading = useGlobalStore((state) => state.authLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!leaderBoardData[leaderBoardSize]) dispatch(getTop(leaderBoardSize));

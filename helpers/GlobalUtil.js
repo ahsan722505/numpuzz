@@ -14,6 +14,9 @@ export class Util {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
   static getGames() {
-    return [{ url: "/number-riddle", name: "Number Riddle" }];
+    return [
+      { url: "/number-riddle", name: "Number Riddle" },
+      { url: "/connect-four", name: "Connect Four" },
+    ];
   }
 }

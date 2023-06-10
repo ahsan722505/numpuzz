@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -16,16 +17,24 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.9.1",
     "@reduxjs/toolkit": "^1.8.3",
+    "antd": "^5.5.2",
     "axios": "^1.4.0",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "socket.io-client": "4.5.3",
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
+    "@types/node": "^18.15.10",
+    "autoprefixer": "^10.4.14",
     "eslint": "8.20.0",
-    "eslint-config-next": "12.2.2"
+    "eslint-config-next": "12.2.2",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^5.0.2"
   }
 }

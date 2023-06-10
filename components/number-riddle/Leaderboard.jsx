@@ -6,6 +6,7 @@ import ProfileImage from "../Auth/ProfileImage";
 import BackButton from "./BackButton";
 import Login from "../Auth/Login";
 import styles from "./Leaderboard.module.scss";
+import useGlobalStore from "../../store/global";
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused,
   label {
@@ -34,15 +35,15 @@ const LeaderBoard = () => {
   const { leaderBoardData, leaderBoardSize } = useSelector(
     (state) => state.numberRiddle
   );
-  const { isLoggedIn } = useSelector((state) => state.global);
+  const isLoggedIn = useGlobalStore((state) => state.isLoggedIn);
 
   return (
     <div className={styles.board}>
       <div>
         <BackButton riddleHome={true} />
-        <h1>Top users with best scores</h1>
+        <h1 className="text-3xl font-bold mt-6">Top users with best scores</h1>
         {!isLoggedIn && (
-          <Login style={{ position: "absolute", top: "-6px", right: "10px" }} />
+          <Login style={{ position: "absolute", top: "12px", right: "10px" }} />
         )}
       </div>
       <div className={styles.tableCont}>
