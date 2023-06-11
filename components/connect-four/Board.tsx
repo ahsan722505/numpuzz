@@ -82,6 +82,7 @@ const Board = ({ resetBoard }) => {
       const newBoard = Util.CreateBoard(gameDim);
       setBoard(newBoard);
       boardRef.current = newBoard;
+      localStorage.setItem("connectFourBoard", JSON.stringify(newBoard));
     }
   }, [resetBoard]);
 
