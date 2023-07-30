@@ -23,7 +23,6 @@ const Levels = () => {
           />
           <span>Leaderboard</span>
         </StyledLink>
-        {!isLoggedIn && <Login />}
       </div>
 
       <div>

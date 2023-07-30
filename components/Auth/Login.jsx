@@ -66,13 +66,12 @@ const Login = (props) => {
 
   return (
     <>
-      <h2
-        {...props}
-        className={`pointer white ${styles.login}`}
+      <button
+        className="border border-background text-xl rounded pl-2 pr-2 pt-[2px] pb-[2px] font-bold"
         onClick={() => setShowModal(true)}
       >
         Login
-      </h2>
+      </button>
       <MyModal open={showModal} onClose={() => setShowModal(false)}>
         <Slide direction="left" in={showModal} mountOnEnter unmountOnExit>
           <div className={styles.modalBody}>
