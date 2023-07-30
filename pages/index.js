@@ -1,7 +1,5 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
-import { useSelector } from "react-redux";
-import Login from "../components/Auth/Login";
 import AccountInfo from "../components/Auth/AccountInfo";
 import { Util } from "../helpers/GlobalUtil";
 import GameLink from "../components/Home/GameLink";
@@ -23,7 +21,6 @@ export default function Home() {
         <h1 className="font-bold text-3xl">Numpuzz</h1>
         <div className={styles.authSection}>
           {loading && <h2>Numpuzz User</h2>}
-          {!loading && !isLoggedIn && <Login />}
           {!loading && isLoggedIn && <AccountInfo />}
         </div>
       </header>
