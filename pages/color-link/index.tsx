@@ -1,7 +1,8 @@
 import React from "react";
+import Game from "../../components/ColorLink/Game";
 
 const Index = () => {
-  return <div>Color Link</div>;
+  return <Game />;
 };
 
 export default Index;
