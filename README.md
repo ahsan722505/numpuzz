@@ -15,3 +15,14 @@ There is a feature to send messages during game. The game
 state is also persisted on site reload. Finally I implemented
 an AI bot using minmax algorithm that can also play with
 users.
+
+![image](https://github.com/ahsan722505/numpuzz/assets/79001785/5b4a759d-8fb9-44ea-bed9-1693c24b7e0b)
+![image](https://github.com/ahsan722505/numpuzz/assets/79001785/504be947-6f19-4c8d-96d1-563616467cfc)
+![image](https://github.com/ahsan722505/numpuzz/assets/79001785/396a63d7-9195-4904-af46-e9eba5dfdf3a)
+![image](https://github.com/ahsan722505/numpuzz/assets/79001785/91aca4bb-4ea8-43cc-a69c-af9e4335bcd0)
+![image](https://github.com/ahsan722505/numpuzz/assets/79001785/667a52da-5449-41aa-b9ab-76058d88f21e)
+
+
+
+
+
