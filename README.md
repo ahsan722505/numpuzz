@@ -1,7 +1,7 @@
 It is a platform for online number puzzle games
 It has two games :
 
-Number Riddle : In this game user is required to slide the
+Number Riddle : In this game, user is required to slide the
 tiles to form a required pattern. A timer is there that records
 time it took to solve the puzzle. There are 6 levels. Best
 Score(time) is recorded for every level. There is a feature of
