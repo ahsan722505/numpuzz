@@ -1,5 +1,5 @@
 It is a platform for online number puzzle games
-It has two games :
+It has two games:
 
 Number Riddle : In this game, user is required to slide the
 tiles to form a required pattern. A timer is there that records
